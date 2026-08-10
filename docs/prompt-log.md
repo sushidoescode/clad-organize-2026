@@ -45,4 +45,21 @@ This log is an annotated engineering narrative, maintained continuously during d
   4. **Perf** (this commit): baseline trace of the deliberately-naive 12-RMV ring → batched two-mesh rebuild-on-change ring (12→2 draw calls, LEAF markers preserved) → parity captures + full LEAF re-run → after trace. Honest result in performance.md: render-path slices −3–4%, frame delta not attributable (preview tracking noise +46% run-to-run dominates). No vertex-color package exists in the Asset Library — chose a zero-dependency two-mesh design instead.
   5. **Polish:** UI panel enlarged with live color-coded status text (M4, in `0d1ee2f`); completion scale pulse (this commit). Onboarding ghost-hint beat deferred to Stage 3 (deadline discipline — smallest scope cut).
 - **Verification:** every change compiled, log-diffed, and preview-verified; full LEAF suite green twice; parity captures for the perf refactor; docs/test-evidence.md is the consolidated matrix.
+- **Commit:** `e4dee64`; merged to `main` fast-forward.
+
+---
+
+## E3 — Stage 3 (build portion): onboarding, flash, demo assets (2026-08-10, ~13:40–13:46)
+
+- **Intent:** the deferred onboarding beat, an arc-flip flash, demo choreography, hero stills, and the submission-artifact drafts.
+- **Prompt:** human: "Let's keep pushing through and build it out."
+- **Agents/skills:** inline build (VirtualScene single-writer, PreviewInteractTool drives, LEAF MCP runs).
+- **Observed:**
+  1. `OnboardingHint.ts` (billboarded one-sentence caption above the tray; CompassRoot dismisses on first manipulation). First render was unreadably small at size 60 → raised to size 90 + repositioned (0, 55, 165); verified legible, verified fading on first drag.
+  2. RingView newly-covered flash (brightness pop decaying 0.35 s on the shared covered material) — behaviorally verified via coverage flips; per-frame tween created once, enabled per flash.
+  3. Full LEAF suite re-run green after both changes (commit `33957ad`).
+  4. One transient PreviewInteractTool timeout after the IK scenario run (stale puppet-hand state) — recovered with a lens refresh + single retry per the skill's error guidance; not a Lens defect (clean logs).
+  5. Completion re-verified end-to-end on the polished build (two wides at ±45° → `[Coverage] COMPLETE`); hero stills saved to `docs/media/` (initial red arc, full green completion) for the video edit.
+  6. `docs/demo-script.md` (55 s beat sheet, camera choreography incl. verified base view `setPosition (0,70,50) → lookAt (0,-110,-250)`, cold-read gate, evidence-montage capture list) and `docs/submission-description.md` drafted.
+- **Decision:** build phase of Stage 3 complete; remaining steps are human-gated (video recording/narration, Lenslist publish question, scope freeze, compliance flip, submission).
 - **Commit:** (recorded on commit of this entry).
