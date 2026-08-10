@@ -1,0 +1,46 @@
+- !<AssetImportMetadata/eca19bd6-1a26-4298-90c6-ebc30311b97b>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> c8f59215-6c03-48af-9c80-e316a2211215
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/c8f59215-6c03-48af-9c80-e316a2211215>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 97b31cd8-fa89-4a23-b28c-5bc0f41fd902
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    wedgeMaterial: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - wedgeMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material wedgeMaterial

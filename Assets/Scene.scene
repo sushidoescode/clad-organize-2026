@@ -4,6 +4,8 @@
     - !<own> 00000000-0000-0065-0000-000000000064
     - !<own> 0005641c-028d-459a-0000-000000014b4d
     - !<own> f5d74682-203a-4970-81ea-9fa7b88c96bb
+    - !<own> 62a86f70-8759-43c0-bc17-59526275635b
+    - !<own> 9ab8707f-790d-4377-b174-d7f86e7dedbd
   layers: !<Layers/267ee9a7-aff2-4f9d-9a49-f71214747d03>
     userLayers:
       - id: 1
@@ -364,6 +366,22 @@
     - !<own> 05147ea1-cb6b-4629-9484-199a4aa4d92a
   Components:
     []
+- !<ScriptComponent/0bae851f-abc7-4069-98e8-5af475c4d96e>
+  PrefabRemaps:
+    []
+  Name: WedgeController
+  Enabled: true
+  ScriptAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/0c355300-e635-47c1-a8c3-5ddef30b8824>
   PrefabRemaps:
     []
@@ -377,6 +395,23 @@
     HasSegmentScaleCompensation: false
   Children:
     - !<own> d90b4bdf-2fbf-4edc-afa1-d23c2d5ba257
+  Components:
+    []
+- !<SceneObject/0cbb3b45-d36c-499e-90b1-6e4019f66d05>
+  PrefabRemaps:
+    []
+  Name: Wedges
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> 19d460c0-8b8c-4acb-910c-db0287f984bc
+    - !<own> e3806c54-7520-45b4-b2da-cef4d1f14234
+    - !<own> ef6966b2-5766-44bb-a2bc-ba20b93d1491
   Components:
     []
 - !<SceneObject/0cffb60e-73f6-43c5-bb4f-286d39e0f1f6>
@@ -424,6 +459,21 @@
     - !<own> 9e373d68-993f-4c8f-83a0-6644f1d9fefd
   Components:
     []
+- !<SceneObject/10740c91-ae30-49f4-b3b8-e8c2dcdc309e>
+  PrefabRemaps:
+    []
+  Name: CoverageRing
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> e1686e9e-c8cb-47d4-a69f-f30214e8b58a
 - !<SceneObject/10f60da2-2196-40ad-9e72-8a6bc7e86f35>
   PrefabRemaps:
     []
@@ -496,6 +546,22 @@
     - !<own> a6af4948-9adc-4052-ae22-db902dd2764e
   Components:
     []
+- !<ScriptComponent/17a239eb-2916-4826-a7a2-b2946ae1c618>
+  PrefabRemaps:
+    []
+  Name: WedgeController
+  Enabled: true
+  ScriptAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/181c239f-175e-4912-94fc-d37a2599b2d6>
   PrefabRemaps:
     []
@@ -511,6 +577,21 @@
     []
   Components:
     []
+- !<SceneObject/19d460c0-8b8c-4acb-910c-db0287f984bc>
+  PrefabRemaps:
+    []
+  Name: Wedge1
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: -40.000000, y: 0.000000, z: 150.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 0bae851f-abc7-4069-98e8-5af475c4d96e
 - !<RenderMeshVisual/1f969daa-5809-4500-b314-98d91ccba131>
   PrefabRemaps:
     []
@@ -708,6 +789,22 @@
     - !<own> a7da4af4-3d84-4acd-a31e-920a56b4c5c8
   Components:
     []
+- !<ScriptComponent/2fea2a89-a2e9-4466-a686-a42ecae22d1a>
+  PrefabRemaps:
+    []
+  Name: AgentInspectScript
+  Enabled: true
+  ScriptAsset: !<reference> 0b25079c-f5bf-4c6d-96c4-f43b89dfa213
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<RenderMeshVisual/335c5f8b-2917-49e8-8af5-220696e9bc09>
   PrefabRemaps:
     []
@@ -794,6 +891,26 @@
     - !<own> 4051028a-c608-4a97-b3d5-1a3912a7c007
   Components:
     []
+- !<RenderMeshVisual/3949b929-8f1a-48b9-a969-11f01d9f7b89>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> a0204d3d-146a-4225-b89d-fe920b75e11b
+  Mesh: !<reference> 4118ded9-076e-4ac4-ac5d-056669e9a822
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<SceneObject/3a794764-c758-4d72-9d89-bf3ed978113f>
   PrefabRemaps:
     []
@@ -869,6 +986,22 @@
     []
   Components:
     - !<own> 1f969daa-5809-4500-b314-98d91ccba131
+- !<ScriptComponent/4237f820-656c-42b7-95a5-62ce388a8aa4>
+  PrefabRemaps:
+    []
+  Name: AgentInteractScript
+  Enabled: true
+  ScriptAsset: !<reference> 29091811-e792-46be-bfa4-28ddec5f11be
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/44097eaf-01da-45fb-8973-3bd8172618de>
   PrefabRemaps:
     []
@@ -914,6 +1047,26 @@
     - !<own> 8fe2a532-9bf3-4cde-b598-04ce5470718d
   Components:
     []
+- !<ScriptComponent/479ce804-5f2c-4983-8af0-9b6939e48b2a>
+  PrefabRemaps:
+    []
+  Name: CompassUI
+  Enabled: true
+  ScriptAsset: !<reference> 0c7e3085-afa9-4ca4-aa87-15264a17bcfc
+  ScriptInputsDefault:
+    labelText: true
+    buttonWidth: true
+    buttonHeight: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      labelText: Reset
+      buttonWidth: !<float> 10.000000
+      buttonHeight: 4.500000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/4c195c04-c397-454e-bd08-3485f37d84fe>
   PrefabRemaps:
     []
@@ -1013,6 +1166,26 @@
   ScriptTypes:
     "":
       {}
+- !<RenderMeshVisual/62250a2b-373a-49c7-9ac5-c038e702142e>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 16ce2e83-7a3f-4dda-95f6-2d4347b45609
+  Mesh: !<reference> 4118ded9-076e-4ac4-ac5d-056669e9a822
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<ScriptComponent/62967490-d66e-4479-8829-e5c9da5b5b57>
   PrefabRemaps:
     []
@@ -1037,6 +1210,25 @@
   ScriptTypes:
     "":
       {}
+- !<SceneObject/62a86f70-8759-43c0-bc17-59526275635b>
+  PrefabRemaps:
+    []
+  Name: CoverageCompass
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -125.000000, z: -260.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    - !<own> a1883122-32ef-42a1-97c0-f1596e1f6df1
+    - !<own> 8ac44bde-20a1-4ab4-8285-a0a35619fcce
+    - !<own> 10740c91-ae30-49f4-b3b8-e8c2dcdc309e
+    - !<own> 0cbb3b45-d36c-499e-90b1-6e4019f66d05
+    - !<own> 81fc2838-2ba4-4eb8-a129-89d84bcccead
+  Components:
+    - !<own> ef681746-ffff-45dd-8798-593374257e83
 - !<ScriptComponent/64f27597-c99d-4c59-8a08-05459cc2258d>
   PrefabRemaps:
     []
@@ -1398,6 +1590,21 @@
     []
   Components:
     - !<own> 335c5f8b-2917-49e8-8af5-220696e9bc09
+- !<SceneObject/81fc2838-2ba4-4eb8-a129-89d84bcccead>
+  PrefabRemaps:
+    []
+  Name: CompassUI
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 70.000000, y: 65.000000, z: 100.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 479ce804-5f2c-4983-8af0-9b6939e48b2a
 - !<SceneObject/82a4b4e8-283b-441c-8b94-9fdc50c958f2>
   PrefabRemaps:
     []
@@ -1476,6 +1683,21 @@
     - !<own> 1fc7fa3e-6910-4741-b8a7-1b6660a39a9d
   Components:
     - !<own> 28e05826-1521-46fa-a54c-80f2957ec80c
+- !<SceneObject/8ac44bde-20a1-4ab4-8285-a0a35619fcce>
+  PrefabRemaps:
+    []
+  Name: SubjectMark
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 45.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 16.000000, y: 90.000000, z: 16.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 3949b929-8f1a-48b9-a969-11f01d9f7b89
 - !<SceneObject/8b877074-7eee-4be1-b669-714f8d5a1da3>
   PrefabRemaps:
     []
@@ -1575,6 +1797,22 @@
     - !<own> a4de4ce7-f468-4966-8a06-e29eea60c023
   Components:
     []
+- !<SceneObject/9ab8707f-790d-4377-b174-d7f86e7dedbd>
+  PrefabRemaps:
+    []
+  Name: AiPreviewAgent Handler
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 2fea2a89-a2e9-4466-a686-a42ecae22d1a
+    - !<own> 4237f820-656c-42b7-95a5-62ce388a8aa4
 - !<SceneObject/9c3a7929-faa9-4369-a85c-c75a6ab4eee7>
   PrefabRemaps:
     []
@@ -1636,6 +1874,21 @@
     - !<own> 46ea93d6-d161-4453-9064-6ac11e1d6523
   Components:
     []
+- !<SceneObject/a1883122-32ef-42a1-97c0-f1596e1f6df1>
+  PrefabRemaps:
+    []
+  Name: RehearsalFloor
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: -1.500000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 320.000000, y: 2.000000, z: 320.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 62250a2b-373a-49c7-9ac5-c038e702142e
 - !<SceneObject/a4b1ce71-4840-4493-bc52-58f3c13933e1>
   PrefabRemaps:
     []
@@ -2053,6 +2306,22 @@
     index-2: !<reference> 2dae2a27-8ce6-466a-8bff-622195c1b3a8
     thumb-3_end_end_end_end: !<reference> bf2095b6-c6f8-48c8-b840-e0a6cec0dc99
     wrist_to_pinky: !<reference> 3b4f5057-b516-4d3b-9c8d-14c81af2f505
+- !<ScriptComponent/cd3c710c-4c63-447a-96c3-776945e61e62>
+  PrefabRemaps:
+    []
+  Name: WedgeController
+  Enabled: true
+  ScriptAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/ce2213a1-7aa1-4201-a3c7-c2aaa06fd4ff>
   PrefabRemaps:
     []
@@ -2258,6 +2527,22 @@
   BlendNormals: false
   BlendShapes:
     {}
+- !<ScriptComponent/e1686e9e-c8cb-47d4-a69f-f30214e8b58a>
+  PrefabRemaps:
+    []
+  Name: RingView
+  Enabled: true
+  ScriptAsset: !<reference> 5594d300-054d-4d02-a902-3455f6e584d9
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      baseMaterial: !<reference.Material> 4072a72d-2796-48c4-826f-e9f22f1bd118
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/e2ba526d-75d1-466b-86a5-9cd7c42dca84>
   PrefabRemaps:
     []
@@ -2273,6 +2558,21 @@
     - !<own> 7e2075c6-0882-4275-8365-16a03da73298
   Components:
     []
+- !<SceneObject/e3806c54-7520-45b4-b2da-cef4d1f14234>
+  PrefabRemaps:
+    []
+  Name: Wedge2
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.000000, z: 150.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> cd3c710c-4c63-447a-96c3-776945e61e62
 - !<SceneObject/e42bbb9f-e951-4432-be2e-3cc712b1fc33>
   PrefabRemaps:
     []
@@ -2351,6 +2651,37 @@
     Fingers_length: 0.000000
     Thumb_inflate: 0.000000
     Thumb_length: 0.000000
+- !<ScriptComponent/ef681746-ffff-45dd-8798-593374257e83>
+  PrefabRemaps:
+    []
+  Name: CompassRoot
+  Enabled: true
+  ScriptAsset: !<reference> cc7c9b0e-1dec-4c39-9cd1-fcd47c8260da
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      {}
+  ScriptTypes:
+    "":
+      {}
+- !<SceneObject/ef6966b2-5766-44bb-a2bc-ba20b93d1491>
+  PrefabRemaps:
+    []
+  Name: Wedge3
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 40.000000, y: 0.000000, z: 150.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 17a239eb-2916-4826-a7a2-b2946ae1c618
 - !<SceneObject/f0394c5d-4c44-4c65-a77c-e1c7e05ca905>
   PrefabRemaps:
     []
