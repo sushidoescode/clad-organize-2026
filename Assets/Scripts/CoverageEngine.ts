@@ -1,25 +1,44 @@
 /**
- * Pure coverage math — no scene references, no component state.
+ * Pure coverage math v2 — no scene references, no component state.
  * Single source of truth for the coverage ring; LEAF scenarios target this module.
  *
- * Angle convention: bearing on the XZ plane around +Y, 0° = +Z, increasing toward +X,
- * normalized to [0, 360). The ring is quantized into SECTOR_COUNT equal sectors;
- * sector i spans [i * (360/SECTOR_COUNT), (i+1) * (360/SECTOR_COUNT)).
+ * v2 semantics (cinematically true): interview coverage lives on the FRONT
+ * 180° working arc — the user's side of the axis line (the "180° line").
+ * Bearing convention: signed degrees in (-180, 180], 0° = +Z (user/tray side),
+ * positive toward +X. The working arc spans [-90°, +90°]. A wedge placed
+ * behind the line (|bearing| > 90°) contributes NO coverage and raises a
+ * line violation instead.
  */
 
-export const SECTOR_COUNT = 24
-export const COVERAGE_HALF_ANGLE_DEG = 60
-/** Wedges farther than this from the subject (cm) do not contribute coverage (tray zone). */
+export const SECTOR_COUNT = 12
+export const ARC_START_DEG = -90
+export const SECTOR_SIZE_DEG = 15
+/** Wedges farther than this from the subject (cm) are inactive (tray zone). */
 export const ACTIVE_RADIUS_CM = 130
 
-export function bearingDeg(subjectPos: vec3, wedgePos: vec3): number {
+export type ShotType = "wide" | "medium" | "close"
+export const SHOT_TYPES: ShotType[] = ["wide", "medium", "close"]
+
+export function halfAngleForType(t: ShotType): number {
+  if (t === "wide") {
+    return 45
+  }
+  if (t === "medium") {
+    return 30
+  }
+  return 20
+}
+
+export interface WedgeInput {
+  bearingDeg: number
+  halfAngleDeg: number
+  distanceCm: number
+}
+
+export function bearingSignedDeg(subjectPos: vec3, wedgePos: vec3): number {
   const dx = wedgePos.x - subjectPos.x
   const dz = wedgePos.z - subjectPos.z
-  let deg = (Math.atan2(dx, dz) * 180) / Math.PI
-  if (deg < 0) {
-    deg += 360
-  }
-  return deg
+  return (Math.atan2(dx, dz) * 180) / Math.PI
 }
 
 export function planarDistanceCm(subjectPos: vec3, wedgePos: vec3): number {
@@ -33,22 +52,29 @@ export function angularDistanceDeg(a: number, b: number): number {
   return d > 180 ? 360 - d : d
 }
 
+function isActive(w: WedgeInput): boolean {
+  return w.distanceCm <= ACTIVE_RADIUS_CM
+}
+
+function isFrontSide(w: WedgeInput): boolean {
+  return Math.abs(w.bearingDeg) <= 90
+}
+
 /**
- * Core derivation: which sectors are covered by the given wedge bearings.
- * A sector is covered iff its center lies within ±halfAngleDeg of any bearing.
+ * Which of the 12 working-arc sectors are covered. A sector is covered iff
+ * its center lies within ±halfAngle of an ACTIVE, FRONT-side wedge's bearing.
  */
-export function computeSectors(
-  wedgeBearingsDeg: number[],
-  halfAngleDeg: number = COVERAGE_HALF_ANGLE_DEG,
-  sectorCount: number = SECTOR_COUNT
-): boolean[] {
+export function computeSectors(wedges: WedgeInput[]): boolean[] {
   const sectors: boolean[] = []
-  const sectorSize = 360 / sectorCount
-  for (let i = 0; i < sectorCount; i++) {
-    const center = (i + 0.5) * sectorSize
+  for (let i = 0; i < SECTOR_COUNT; i++) {
+    const center = ARC_START_DEG + (i + 0.5) * SECTOR_SIZE_DEG
     let covered = false
-    for (let w = 0; w < wedgeBearingsDeg.length; w++) {
-      if (angularDistanceDeg(center, wedgeBearingsDeg[w]) <= halfAngleDeg) {
+    for (let w = 0; w < wedges.length; w++) {
+      const wedge = wedges[w]
+      if (!isActive(wedge) || !isFrontSide(wedge)) {
+        continue
+      }
+      if (angularDistanceDeg(center, wedge.bearingDeg) <= wedge.halfAngleDeg) {
         covered = true
         break
       }
@@ -56,6 +82,17 @@ export function computeSectors(
     sectors.push(covered)
   }
   return sectors
+}
+
+/** Indices of active wedges that crossed the axis line (behind the working arc). */
+export function lineViolations(wedges: WedgeInput[]): number[] {
+  const out: number[] = []
+  for (let i = 0; i < wedges.length; i++) {
+    if (isActive(wedges[i]) && !isFrontSide(wedges[i])) {
+      out.push(i)
+    }
+  }
+  return out
 }
 
 export function isComplete(sectors: boolean[]): boolean {

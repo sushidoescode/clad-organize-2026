@@ -13,6 +13,7 @@ import Event, { PublicApi } from "SpectaclesInteractionKit.lspkg/Utils/Event"
 
 const LAYOUT_Z_LIFT = 0.02
 const CONTENT_Z = 0.6
+const DYNAMIC_TEXT_Z = 0.15
 
 // Type scale (Far / z=-110). ElementContent has no weight setter — size only.
 const TYPE_SCALE: { [role: string]: number } = {
@@ -26,9 +27,9 @@ function roleSize(role: string): number {
 }
 
 /**
- * CompassUI — minimal control panel for the Shot Coverage Compass:
- * a single UIKit Reset button on a BackPlate. Exposes onReset for
- * CompassRoot to subscribe to. Billboarded toward the user.
+ * CompassUI — control panel for the Shot Coverage Compass: a live coverage
+ * status line and a UIKit Reset button on a BackPlate. Exposes onReset for
+ * CompassRoot; receives state via setStatus(). Billboarded toward the user.
  */
 @component
 export class CompassUI extends BaseScriptComponent {
@@ -42,18 +43,30 @@ export class CompassUI extends BaseScriptComponent {
   @input
   @hint("Button width in cm (min 5.5 for a 5-char label)")
   @widget(new SliderWidget(5.5, 16, 0.5))
-  buttonWidth: number = 10
+  buttonWidth: number = 12
 
   @input
   @hint("Button height in cm (min 4 cm touch target)")
   @widget(new SliderWidget(4, 8, 0.5))
   buttonHeight: number = 4.5
+
+  @input
+  @hint("Status color when coverage is complete")
+  @widget(new ColorWidget())
+  completeColor: vec4 = new vec4(0.35, 0.95, 0.5, 1.0)
+
+  @input
+  @hint("Status color when a wedge crossed the axis line")
+  @widget(new ColorWidget())
+  warnColor: vec4 = new vec4(0.98, 0.7, 0.2, 1.0)
   @ui.group_end
 
   private _onReset: Event<void> = new Event<void>()
   public get onReset(): PublicApi<void> {
     return this._onReset.publicApi()
   }
+
+  private statusText: Text | null = null
 
   onAwake(): void {
     this.sceneObject.createComponent("Component.Canvas")
@@ -62,12 +75,25 @@ export class CompassUI extends BaseScriptComponent {
       BackPlate.getTypeName()
     ) as BackPlate
 
+    const panelW = this.buttonWidth + 3
     const content = this.obj(this.sceneObject, "Content", new vec3(0, 0, CONTENT_Z))
-    const col = this.flexColumn(content, this.buttonWidth + 2, this.buttonHeight + 2, {
+    const col = this.flexColumn(content, panelW, this.buttonHeight + 6, {
       justify: FlexJustify.Center,
       align: FlexAlign.Center,
-      padY: 1,
-      padX: 1,
+      gap: 0.9,
+      padY: 1.2,
+      padX: 1.2,
+    })
+
+    this.flexChild(col, { w: panelW - 2.4, h: 2.6 }, (txtObj) => {
+      this.liftInZ(txtObj, DYNAMIC_TEXT_Z)
+      const t = txtObj.createComponent("Component.Text") as Text
+      t.text = "0/12 covered"
+      t.size = roleSize("Caption")
+      t.depthTest = true
+      t.horizontalOverflow = HorizontalOverflow.Overflow
+      t.layoutRect = Rect.create(-(panelW - 2.4) / 2, (panelW - 2.4) / 2, -1.3, 1.3)
+      this.statusText = t
     })
 
     this.flexChild(col, { w: this.buttonWidth, h: this.buttonHeight }, (btnObj) => {
@@ -92,6 +118,28 @@ export class CompassUI extends BaseScriptComponent {
     })
 
     this.sceneObject.createComponent(Billboard.getTypeName())
+  }
+
+  /** Called by CompassRoot after every recompute. */
+  public setStatus(
+    covered: number,
+    total: number,
+    complete: boolean,
+    lineViolation: boolean
+  ): void {
+    if (!this.statusText) {
+      return
+    }
+    if (complete) {
+      this.statusText.text = "Coverage complete"
+      this.statusText.textFill.color = this.completeColor
+    } else if (lineViolation) {
+      this.statusText.text = "Crossed the line!"
+      this.statusText.textFill.color = this.warnColor
+    } else {
+      this.statusText.text = covered + "/" + total + " covered"
+      this.statusText.textFill.color = new vec4(1, 1, 1, 1)
+    }
   }
 
   private obj(parent: SceneObject, name: string, position?: vec3): SceneObject {

@@ -373,12 +373,13 @@
   Enabled: true
   ScriptAsset: !<reference> e2f7c0aa-736c-4fd4-a5a5-73f239baed7c
   ScriptInputsDefault:
-    {}
+    initialType: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
     "":
       wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+      initialType: wide
   ScriptTypes:
     "":
       {}
@@ -559,6 +560,7 @@
   ScriptInputs:
     "":
       wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+      initialType: close
   ScriptTypes:
     "":
       {}
@@ -1057,6 +1059,8 @@
     labelText: true
     buttonWidth: true
     buttonHeight: true
+    completeColor: true
+    warnColor: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
@@ -1064,6 +1068,8 @@
       labelText: Reset
       buttonWidth: !<float> 10.000000
       buttonHeight: 4.500000
+      completeColor: !<Vec4> {x: 0.350000, y: 0.950000, z: 0.500000, w: 1.000000}
+      warnColor: !<Vec4> {x: 0.980000, y: 0.700000, z: 0.200000, w: 1.000000}
   ScriptTypes:
     "":
       {}
@@ -1227,6 +1233,7 @@
     - !<own> 10740c91-ae30-49f4-b3b8-e8c2dcdc309e
     - !<own> 0cbb3b45-d36c-499e-90b1-6e4019f66d05
     - !<own> 81fc2838-2ba4-4eb8-a129-89d84bcccead
+    - !<own> fefd5c74-8395-48fd-b142-04809a879871
   Components:
     - !<own> ef681746-ffff-45dd-8798-593374257e83
 - !<ScriptComponent/64f27597-c99d-4c59-8a08-05459cc2258d>
@@ -1599,7 +1606,7 @@
   LocalTransform: !<TransformEntity>
     Position: {x: 70.000000, y: 65.000000, z: 100.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    Scale: {x: 1.500000, y: 1.500000, z: 1.500000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -1766,6 +1773,26 @@
     - !<own> 8cb3dd13-6ebf-41e6-9a23-94a69dd96f87
   Components:
     []
+- !<RenderMeshVisual/8ffe8546-b467-4bba-8698-9b6548036178>
+  PrefabRemaps:
+    []
+  Name: Render Mesh Visual
+  Enabled: true
+  RenderOrder: 0
+  StretchMode: Stretch
+  VerticalAlignment: Center
+  HorizontalAlignment: Center
+  MeshShadowMode: None
+  ShadowColor: {x: 1.000000, y: 1.000000, z: 1.000000, w: 1.000000}
+  ShadowDensity: 1.000000
+  Materials:
+    - !<reference> 64bfeb13-0417-4fcd-bef5-24bfaddc9e52
+  Mesh: !<reference> 34755622-7946-4e90-b917-ca405044f203
+  Skin: !<reference> 00000000-0000-0000-0000-000000000000
+  BlendShapesEnabled: true
+  BlendNormals: false
+  BlendShapes:
+    {}
 - !<SceneObject/9468c53c-f76f-49b7-8a49-b5ec6af1c5a3>
   PrefabRemaps:
     []
@@ -2319,6 +2346,7 @@
   ScriptInputs:
     "":
       wedgeMaterial: !<reference.Material> e0f961a0-0c1d-4e57-8c4a-c0d42d2f25e7
+      initialType: medium
   ScriptTypes:
     "":
       {}
@@ -2934,3 +2962,18 @@
     - !<own> bb75b5ea-8baf-4d8d-bcf8-49bd79873881
   Components:
     []
+- !<SceneObject/fefd5c74-8395-48fd-b142-04809a879871>
+  PrefabRemaps:
+    []
+  Name: Line180
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.500000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 270.000000, y: 1.000000, z: 3.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 8ffe8546-b467-4bba-8698-9b6548036178

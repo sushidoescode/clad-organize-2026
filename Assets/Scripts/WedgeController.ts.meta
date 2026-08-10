@@ -28,6 +28,7 @@
   ExportUid: 00000000-0000-0000-0000-000000000000
   PackagePolicy: CanBeUnpacked
   ScriptInputsHidden:
+    initialType: false
     wedgeMaterial: false
   ScriptTypesHidden:
     {}
@@ -39,8 +40,10 @@
     []
   DefaultScriptInputs:
     - wedgeMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      initialType: wide
   ScriptTypes:
     -
       {}
   InputLines:
     - // @input Asset.Material wedgeMaterial
+    - '// @input string initialType = "wide" {"hint":"Initial shot type: wide | medium | close"}'

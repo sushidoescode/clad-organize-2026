@@ -1,13 +1,13 @@
-import { SECTOR_COUNT } from "./CoverageEngine"
+import { ARC_START_DEG, SECTOR_COUNT, SECTOR_SIZE_DEG } from "./CoverageEngine"
 import { buildSectorMesh } from "./WedgeMeshFactory"
 
 /**
- * Renders the coverage ring: SECTOR_COUNT flat annular sector meshes around the
- * subject. Pure view — receives boolean[] from CompassRoot and applies it.
- * State is never encoded by color alone: covered sectors also raise 2 cm.
+ * Renders the working-arc coverage ring: SECTOR_COUNT flat annular sectors
+ * across the front 180°. Pure view — receives boolean[] from CompassRoot.
+ * State is never color-alone: covered sectors also raise 2 cm.
  *
  * Deliberately naive first build (one mesh + visual per sector) — this is the
- * measured "before" of the later batching perf pass.
+ * measured "before" of the perf pass.
  */
 @component
 export class RingView extends BaseScriptComponent {
@@ -26,9 +26,9 @@ export class RingView extends BaseScriptComponent {
     this.coveredMat = this.baseMaterial.clone()
     this.coveredMat.mainPass.baseColor = new vec4(0.15, 0.8, 0.35, 1.0)
 
-    const sectorSize = 360 / SECTOR_COUNT
     const gapDeg = 1.5
     for (let i = 0; i < SECTOR_COUNT; i++) {
+      const start = ARC_START_DEG + i * SECTOR_SIZE_DEG
       const obj = global.scene.createSceneObject("Sector" + i)
       obj.setParent(this.sceneObject)
       obj.getTransform().setLocalPosition(new vec3(0, 0, 0))
@@ -38,8 +38,8 @@ export class RingView extends BaseScriptComponent {
       rmv.mesh = buildSectorMesh(
         110,
         125,
-        i * sectorSize + gapDeg / 2,
-        (i + 1) * sectorSize - gapDeg / 2,
+        start + gapDeg / 2,
+        start + SECTOR_SIZE_DEG - gapDeg / 2,
         6
       )
       rmv.mainMaterial = this.gapMat
