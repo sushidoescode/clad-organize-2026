@@ -26,3 +26,4 @@ PluginsUserPreferences/
 
 # OS files
 .DS_Store
+tempAssetGen/

@@ -14,6 +14,12 @@ import {
 
 const STORE_KEY = "scc_layout_v1"
 const TRAY_TYPES: string[] = ["wide", "medium", "close"]
+const TICK_THROTTLE_S = 0.12
+
+const SFX_TICK = requireAsset("../GeneratedSFX/sector_tick.wav") as AudioTrackAsset
+const SFX_CHIME = requireAsset("../GeneratedSFX/complete_chime.wav") as AudioTrackAsset
+const SFX_WARN = requireAsset("../GeneratedSFX/line_warning.wav") as AudioTrackAsset
+const SFX_WHOOSH = requireAsset("../GeneratedSFX/reset_whoosh.wav") as AudioTrackAsset
 
 interface SavedWedge {
   x: number
@@ -44,6 +50,13 @@ export class CompassRoot extends BaseScriptComponent {
   private lastCovered: number = -1
 
   private saveEvent: DelayedCallbackEvent | null = null
+
+  private tickAudio: AudioComponent | null = null
+  private chimeAudio: AudioComponent | null = null
+  private warnAudio: AudioComponent | null = null
+  private whooshAudio: AudioComponent | null = null
+  private lastTickAt: number = 0
+  private audioReady: boolean = false
 
   onAwake(): void {
     this.createEvent("OnStartEvent").bind(() => this.start())
@@ -99,6 +112,7 @@ export class CompassRoot extends BaseScriptComponent {
     this.saveEvent = this.createEvent("DelayedCallbackEvent")
     this.saveEvent.bind(() => this.saveLayout())
 
+    this.setupAudio()
     this.restoreLayout()
 
     console.log("[CompassRoot] Ready. wedges=" + this.wedges.length)
@@ -138,6 +152,9 @@ export class CompassRoot extends BaseScriptComponent {
     if (violations.length !== this.lastViolationCount) {
       if (violations.length > this.lastViolationCount) {
         console.log("[Coverage] LINE CROSSED — wedge behind the axis line")
+        if (this.audioReady && this.warnAudio) {
+          this.warnAudio.play(1)
+        }
       }
       this.lastViolationCount = violations.length
     }
@@ -149,11 +166,23 @@ export class CompassRoot extends BaseScriptComponent {
     }
     if (complete && !this.lastComplete) {
       console.log("[Coverage] COMPLETE — full working arc covered")
+      if (this.audioReady && this.chimeAudio) {
+        this.chimeAudio.play(1)
+      }
     } else if (!complete && this.lastComplete) {
       console.log("[Coverage] gap opened — covered " + covered + "/" + SECTOR_COUNT)
+    } else if (
+      this.audioReady &&
+      covered > this.lastCovered &&
+      this.tickAudio &&
+      getTime() - this.lastTickAt > TICK_THROTTLE_S
+    ) {
+      this.tickAudio.play(1)
+      this.lastTickAt = getTime()
     }
     this.lastComplete = complete
     this.lastCovered = covered
+    this.audioReady = true
   }
 
   public reset(): void {
@@ -165,7 +194,27 @@ export class CompassRoot extends BaseScriptComponent {
     }
     this.clearSaved()
     this.recompute()
+    if (this.whooshAudio) {
+      this.whooshAudio.play(1)
+    }
     console.log("[CompassRoot] Reset to tray")
+  }
+
+  private setupAudio(): void {
+    this.tickAudio = this.makeAudio(SFX_TICK, 0.5)
+    this.chimeAudio = this.makeAudio(SFX_CHIME, 0.7)
+    this.warnAudio = this.makeAudio(SFX_WARN, 0.6)
+    this.whooshAudio = this.makeAudio(SFX_WHOOSH, 0.6)
+  }
+
+  private makeAudio(track: AudioTrackAsset, volume: number): AudioComponent {
+    const a = this.sceneObject.createComponent(
+      "Component.AudioComponent"
+    ) as AudioComponent
+    a.audioTrack = track
+    a.volume = volume
+    a.playbackMode = Audio.PlaybackMode.LowLatency
+    return a
   }
 
   // ---- persistence ----
