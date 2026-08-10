@@ -28,13 +28,42 @@ export class RingView extends BaseScriptComponent {
   private markers: SceneObject[] = []
   private gapRmv: RenderMeshVisual
   private coveredRmv: RenderMeshVisual
+  private coveredMat: Material
   private built: boolean = false
+  private lastCoveredCount: number = 0
+  private flashElapsed: number = 999
+  private flashEvent: SceneEvent | null = null
+
+  private static readonly COVERED_BASE = new vec4(0.15, 0.8, 0.35, 1.0)
+  private static readonly COVERED_FLASH = new vec4(0.55, 1.0, 0.65, 1.0)
 
   onAwake(): void {
     const gapMat = this.baseMaterial.clone()
     gapMat.mainPass.baseColor = new vec4(0.85, 0.18, 0.15, 1.0)
     const coveredMat = this.baseMaterial.clone()
-    coveredMat.mainPass.baseColor = new vec4(0.15, 0.8, 0.35, 1.0)
+    coveredMat.mainPass.baseColor = RingView.COVERED_BASE
+    this.coveredMat = coveredMat
+
+    // Newly-covered flash: brief brightness pop on the covered arc, decaying
+    // back to the base green. Created once; enabled per flash.
+    this.flashEvent = this.createEvent("UpdateEvent")
+    this.flashEvent.bind(() => {
+      this.flashElapsed += getDeltaTime()
+      const d = 0.35
+      const k = Math.min(1, this.flashElapsed / d)
+      const a = RingView.COVERED_FLASH
+      const b = RingView.COVERED_BASE
+      this.coveredMat.mainPass.baseColor = new vec4(
+        a.x + (b.x - a.x) * k,
+        a.y + (b.y - a.y) * k,
+        a.z + (b.z - a.z) * k,
+        1.0
+      )
+      if (k >= 1 && this.flashEvent) {
+        this.flashEvent.enabled = false
+      }
+    })
+    this.flashEvent.enabled = false
 
     for (let i = 0; i < SECTOR_COUNT; i++) {
       const marker = global.scene.createSceneObject("Sector" + i)
@@ -104,5 +133,11 @@ export class RingView extends BaseScriptComponent {
     if (coveredMesh !== null) {
       this.coveredRmv.mesh = coveredMesh
     }
+
+    if (coveredSpans.length > this.lastCoveredCount && this.flashEvent) {
+      this.flashElapsed = 0
+      this.flashEvent.enabled = true
+    }
+    this.lastCoveredCount = coveredSpans.length
   }
 }

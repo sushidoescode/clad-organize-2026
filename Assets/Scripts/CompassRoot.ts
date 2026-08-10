@@ -1,6 +1,7 @@
 import { RingView } from "./RingView"
 import { WedgeController } from "./WedgeController"
 import { CompassUI } from "./CompassUI"
+import { OnboardingHint } from "./OnboardingHint"
 import {
   WedgeInput,
   bearingSignedDeg,
@@ -40,6 +41,7 @@ export class CompassRoot extends BaseScriptComponent {
   private wedges: WedgeController[] = []
   private trayPositions: vec3[] = []
   private ui: CompassUI | null = null
+  private hint: OnboardingHint | null = null
 
   private lineVisual: RenderMeshVisual | null = null
   private lineSlateMat: Material | null = null
@@ -101,6 +103,13 @@ export class CompassRoot extends BaseScriptComponent {
       }
     }
 
+    const hintObj = this.findChild("OnboardingHint")
+    if (hintObj) {
+      this.hint = hintObj.getComponent(
+        OnboardingHint.getTypeName()
+      ) as OnboardingHint
+    }
+
     const uiObj = this.findChild("CompassUI")
     if (uiObj) {
       this.ui = uiObj.getComponent(CompassUI.getTypeName()) as CompassUI
@@ -120,6 +129,10 @@ export class CompassRoot extends BaseScriptComponent {
   }
 
   private onWedgeChanged(): void {
+    if (this.hint) {
+      this.hint.dismiss()
+      this.hint = null
+    }
     this.recompute()
     if (this.saveEvent) {
       this.saveEvent.reset(0.5)

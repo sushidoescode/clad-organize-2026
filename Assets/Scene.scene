@@ -990,6 +990,21 @@
     - !<own> 988c408a-99dc-47e6-b7c4-efbf4bf8dc3c
   Components:
     []
+- !<SceneObject/3deeab51-9d90-452b-9ba4-7254dda82525>
+  PrefabRemaps:
+    []
+  Name: OnboardingHint
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 55.000000, z: 165.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 6ce288ab-7b02-4135-be8e-965d8483cf39
 - !<SceneObject/4051028a-c608-4a97-b3d5-1a3912a7c007>
   PrefabRemaps:
     []
@@ -1266,6 +1281,7 @@
     - !<own> 0cbb3b45-d36c-499e-90b1-6e4019f66d05
     - !<own> 81fc2838-2ba4-4eb8-a129-89d84bcccead
     - !<own> fefd5c74-8395-48fd-b142-04809a879871
+    - !<own> 3deeab51-9d90-452b-9ba4-7254dda82525
   Components:
     - !<own> ef681746-ffff-45dd-8798-593374257e83
 - !<ScriptComponent/64f27597-c99d-4c59-8a08-05459cc2258d>
@@ -1430,6 +1446,23 @@
     - !<own> 0e778a10-bd57-4a2a-b20a-b6f4326e8058
   Components:
     []
+- !<ScriptComponent/6ce288ab-7b02-4135-be8e-965d8483cf39>
+  PrefabRemaps:
+    []
+  Name: OnboardingHint
+  Enabled: true
+  ScriptAsset: !<reference> c95d5a4f-15cc-4b26-afaf-1cf94f1f6f75
+  ScriptInputsDefault:
+    hintText: true
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      hintText: Drag a wedge to cover every angle
+      textSize: !<float> 90.000000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/6dbaab8f-d98a-4f36-b836-1d7c8a0cca87>
   PrefabRemaps:
     []

@@ -1,0 +1,53 @@
+- !<AssetImportMetadata/ffe5bdd1-81f9-4fef-90d2-7bf74124760e>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> c95d5a4f-15cc-4b26-afaf-1cf94f1f6f75
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> c95d5a4f-15cc-4b26-afaf-1cf94f1f6f75
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 2670b8ef-7f36-4fda-8306-167b31d34c11
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/2670b8ef-7f36-4fda-8306-167b31d34c11>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: 1c15d33d-05ff-4e7d-b227-6169b96a3f4a
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    hintText: false
+    textSize: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - hintText: Drag a wedge to cover every angle
+      textSize: !<float> 60.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - '// @ui {"widget":"label", "label":"Onboarding Hint"}'
+    - '// @ui {"widget":"separator"}'
+    - '// @ui {"widget":"group_start", "label":"Settings"}'
+    - '// @input string hintText = "Drag a wedge to cover every angle" {"hint":"The single onboarding instruction"}'
+    - '// @input float textSize = 60 {"hint":"Text size (world-space em units; ~60 reads at 2 m)", "widget":"slider", "min":30, "max":100, "step":1}'
+    - '// @ui {"widget":"group_end"}'
