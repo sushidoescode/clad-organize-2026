@@ -5,6 +5,8 @@ import { buildWedgeMesh } from "./WedgeMeshFactory"
 import { ShotType, SHOT_TYPES, halfAngleForType } from "./CoverageEngine"
 
 const TAP_MAX_TRAVEL_CM = 2.0
+/** Wedges may not leave the rehearsal floor. */
+const MAX_RADIUS_CM = 155
 
 /**
  * One camera wedge: builds its own mesh, collider, and SIK interaction stack.
@@ -115,11 +117,22 @@ export class WedgeController extends BaseScriptComponent {
     this.getTransform().setLocalScale(new vec3(s, 1, s))
   }
 
-  /** Clamp to the compass floor plane and face the subject (local origin of the compass root). */
+  /**
+   * Clamp to the compass floor plane, keep the wedge on the rehearsal floor
+   * (far-field manipulation can fling objects meters away otherwise), and
+   * face the subject at the local origin.
+   */
   private constrain(): void {
     const t = this.getTransform()
-    const p = t.getLocalPosition()
-    if (Math.abs(p.y) > 0.01) {
+    let p = t.getLocalPosition()
+    let dirty = Math.abs(p.y) > 0.01
+    const radius = Math.sqrt(p.x * p.x + p.z * p.z)
+    if (radius > MAX_RADIUS_CM) {
+      const k = MAX_RADIUS_CM / radius
+      p = new vec3(p.x * k, 0, p.z * k)
+      dirty = true
+    }
+    if (dirty) {
       t.setLocalPosition(new vec3(p.x, 0, p.z))
     }
     const yawRad = Math.atan2(p.x, p.z)
