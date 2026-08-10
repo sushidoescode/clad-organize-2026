@@ -17,4 +17,16 @@ This log is an annotated engineering narrative, maintained continuously during d
 
 ---
 
-(Entries E1+ appended during the build below.)
+## E1 — Vertical slice: wedge drag → live coverage ring (2026-08-10, ~02:30–03:10)
+
+- **Intent:** build ONLY the first action→consequence loop (drag wedge → ring sectors flip) against the five acceptance criteria in product-spec.md; prove the two risky primitives from the 3-hour feasibility gate (pinch-placement, live ring recompute).
+- **Prompt:** Phase E of the master kickoff prompt + human approval "APPROVE Continuity Compass".
+- **Agents/skills:** specs-project-init (validation: all green) · reset-preview-environment (camera reset, clean preview, log baseline 1,273,622 B) · scene-construction + lens-api + specs-interaction-recipes + materials + mesh-builder-scripting + specs-build-ui (domain guidance) · mesh-builder-scripting fork agent authored WedgeMeshFactory.ts (file-only boundary held) · VirtualScene single-writer for all scene mutations (Phase-1 structure apply: 28 ops/0 errors; two-phase script wiring) · PreviewInteractTool drove all interactions · QueryRuntimeSceneTool verified positions/state · specs-build-ui pattern for CompassUI (BackPlate + UIKit Button + Billboard).
+- **Observed results & fixes (all deterministic):**
+  1. `baseMaterial` input not found on first wiring → documented recompile-then-retry case; fixed.
+  2. Content invisible on first run → runtime diagnosis: sim camera at world origin; content placed 150 cm below at FOV edge. Moved rig to (0,−125,−260), repositioned preview camera. Empirical, not guessed.
+  3. `CylinderMeshPreset` is a unit (1 cm) mesh → floor/pillar were centimeter-scale specks. Rescaled ×100.
+  4. UIKit `FlexLayout.addItems()` throws pre-init when `autoDiscoverItemsOnStart` is on → removed the call (content built in onAwake is auto-discovered). Reference-helper deviation documented in code comment.
+- **Verification (evidence per AC):** AC1 drag lands where dropped, floor-constrained (runtime query: world y = −125.000 exactly) ✓ · AC2 sectors within ±60° flip green live (captures, two runs) ✓ · AC3 three wedges ≈120° apart → all 24 green + `[Coverage] COMPLETE` log (verified on two independent runs) ✓ · AC4 one Reset pinch → wedges tray-tweened, ring fully red, `[CompassRoot] Reset to tray` log ✓ · AC5 TypeScript clean; zero runtime errors across full drag→complete→reset pass ✓. See-and-fix loop (recompile → log-diff → capture → judge → fix) executed inline per field-notes at every step; formal /verify-preview skill not separately invoked since its exact loop was already performed with evidence — noted per the no-theatrical-invocation rule.
+- **Decision:** slice accepted; naive 24-mesh ring deliberately kept as the perf-pass baseline; UI panel legibility (small at 1.7 m) deferred to polish.
+- **Commit:** `9fa6fb1` on `vertical-slice`.
