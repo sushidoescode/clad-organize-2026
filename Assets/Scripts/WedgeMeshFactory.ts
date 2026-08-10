@@ -122,6 +122,58 @@ export function buildWedgeMesh(): RenderMesh {
  *
  * UVs: u follows the arc [0..1], v goes inner (0) to outer (1).
  */
+export interface ArcSpan {
+    startDeg: number;
+    endDeg: number;
+}
+
+/**
+ * Many annular sectors in ONE mesh (one draw call) at a fixed height.
+ * Same angle convention and CCW-from-above winding as buildSectorMesh.
+ * Returns null for an empty span list (caller should disable the visual).
+ */
+export function buildArcSpansMesh(
+    spans: ArcSpan[],
+    innerRadiusCm: number,
+    outerRadiusCm: number,
+    yCm: number,
+    arcSegments: number
+): RenderMesh | null {
+    if (spans.length === 0) {
+        return null;
+    }
+    const segments = Math.max(1, Math.floor(arcSegments));
+    const DEG2RAD = Math.PI / 180;
+    const verts: number[] = [];
+    const indices: number[] = [];
+
+    for (let s = 0; s < spans.length; s++) {
+        const span = spans[s];
+        const base = verts.length / 8;
+        for (let i = 0; i <= segments; i++) {
+            const t = i / segments;
+            const theta = (span.startDeg + (span.endDeg - span.startDeg) * t) * DEG2RAD;
+            const dx = Math.sin(theta);
+            const dz = Math.cos(theta);
+            pushVertex(verts, innerRadiusCm * dx, yCm, innerRadiusCm * dz, 0, 1, 0, t, 0);
+            pushVertex(verts, outerRadiusCm * dx, yCm, outerRadiusCm * dz, 0, 1, 0, t, 1);
+        }
+        for (let i = 0; i < segments; i++) {
+            const innerA = base + 2 * i;
+            const outerA = base + 2 * i + 1;
+            const innerB = base + 2 * i + 2;
+            const outerB = base + 2 * i + 3;
+            indices.push(innerA, outerA, outerB, innerA, outerB, innerB);
+        }
+    }
+
+    const builder = createBuilder();
+    builder.appendVerticesInterleaved(verts);
+    builder.appendIndices(indices);
+    builder.updateMesh();
+    return builder.getMesh();
+}
+
 export function buildSectorMesh(
     innerRadiusCm: number,
     outerRadiusCm: number,

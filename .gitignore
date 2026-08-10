@@ -30,3 +30,6 @@ tempAssetGen/
 
 # Added by Lens Studio (LEAF plugin)
 leaf_plugin_settings.json
+performance_traces/
+leaf_plugin_settings.json
+.venv-perfetto/

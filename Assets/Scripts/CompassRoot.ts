@@ -169,6 +169,7 @@ export class CompassRoot extends BaseScriptComponent {
       if (this.audioReady && this.chimeAudio) {
         this.chimeAudio.play(1)
       }
+      this.pulseSubject()
     } else if (!complete && this.lastComplete) {
       console.log("[Coverage] gap opened — covered " + covered + "/" + SECTOR_COUNT)
     } else if (
@@ -198,6 +199,28 @@ export class CompassRoot extends BaseScriptComponent {
       this.whooshAudio.play(1)
     }
     console.log("[CompassRoot] Reset to tray")
+  }
+
+  /** Completion celebration: one soft scale pulse on the subject mark. */
+  private pulseSubject(): void {
+    if (!this.subject) {
+      return
+    }
+    const t = this.subject.getTransform()
+    const base = t.getLocalScale()
+    let elapsed = 0
+    const anim = this.createEvent("UpdateEvent")
+    anim.bind(() => {
+      elapsed += getDeltaTime()
+      const d = 0.6
+      if (elapsed >= d) {
+        t.setLocalScale(base)
+        anim.enabled = false
+        return
+      }
+      const k = 1 + 0.12 * Math.sin((elapsed / d) * Math.PI)
+      t.setLocalScale(new vec3(base.x * k, base.y, base.z * k))
+    })
   }
 
   private setupAudio(): void {
