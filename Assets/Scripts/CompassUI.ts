@@ -106,7 +106,7 @@ export class CompassUI extends BaseScriptComponent {
       return made!
     }
 
-    makeText(2.0, SIZE_TITLE, "COVERAGE", IVORY_DIM)
+    makeText(2.0, SIZE_TITLE, "SHOT COVERAGE COMPASS", IVORY_DIM)
 
     // Two-tone hero: covered count in phosphor green beside an ivory total
     // (a Text can only carry one fill color, so the hero is a flex row).

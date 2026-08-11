@@ -98,4 +98,22 @@ This log is an annotated engineering narrative, maintained continuously during d
   6. Axis line slimmed (270×0.8×2).
   7. Full pass re-verified: fresh-run opening state, completion via two wides at ±45° (`[Coverage] COMPLETE`), hint-dismiss nudge for the still, Reset; **LEAF 4/4 green**; new hero stills saved.
 - **Decision:** the two concept frames are archived as the art-direction reference; remaining deltas (true bloom halos, photoreal room) are out of scope — they are renderer/passthrough properties, not Lens content.
+- **Commit:** `99d58c9`.
+
+---
+
+## E6 — Cold-judge comprehension + interaction polish (2026-08-11, ~00:15–00:25)
+
+- **Intent:** close the "would a first-time judge understand this without a tutorial?" gap the human raised, plus the two safe polish items previously deferred (hover affordance, sector raise motion). The Lens must self-identify and self-explain in one glance.
+- **Prompt (human, core):** *"…if you were a judge that has never seen this before, do you think you would need some kind of tutorial, guide or understand what this is for and why this is useful for the theme? Having said that, what are the gaps there?"* + latest Lens Studio screenshot.
+- **Agents/skills:** inline build; VirtualScene untouched this pass (all changes runtime-script-side); PreviewInteractTool + runtime queries for verification; LEAF regression gate.
+- **Observed:**
+  1. **In-Lens identity:** panel title is now "SHOT COVERAGE COMPASS" (was "COVERAGE").
+  2. **Purpose line:** onboarding hint gained a second smaller line — "PLAN CAMERA SETUPS AROUND YOUR SUBJECT" — so the WHAT (title), the WHY (sub-line), and the HOW (drag instruction) are all on screen in the first second; both lines fade together on first manipulation.
+  3. **Metaphor anchor:** quiet billboarded "SUBJECT" caption above the beacon column.
+  4. **Hover affordance:** wedges brighten toward white on SIK hover (pre-cloned hover materials, swapped on onHoverEnter/onHoverExit). Verified by held-pinch capture: cyan wedge visibly pales while hovered; no tap-cycle side effect (travel > 2 cm, confirmed via logs).
+  5. **Raise-pop motion:** covered arc now physically rises as it flips — the covered mesh is built at y=0 and RAISE_CM moved to the object transform, animated by the existing flash tween (0.45→1.0 × 2 cm). LEAF's per-sector markers still snap instantly (state, not animation). Verified numerically post-flip: RingCovered local y = 2.000 exactly; covered marker y=2, uncovered y=0.
+  6. Full loop re-verified (completion logged, reset); **LEAF 4/4 green — sixth full pass**; hero stills refreshed with the comprehension layer visible.
+  7. One montage screencapture attempt grabbed the wrong desktop space (an unrelated private window) — file deleted immediately, never committed; the LEAF-panel montage still is human-gated (capture while screen-recording with LS frontmost).
+- **Decision:** comprehension gaps closed in-Lens; deliberately NOT built — spatially-positioned tick audio (inaudible in a mono screen recording, the only judged medium) and any further visual passes (diminishing returns vs. regression risk).
 - **Commit:** (recorded on commit of this entry).

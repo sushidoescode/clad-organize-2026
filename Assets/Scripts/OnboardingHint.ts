@@ -15,12 +15,17 @@ export class OnboardingHint extends BaseScriptComponent {
   hintText: string = "DRAG A WEDGE TO COVER EVERY ANGLE"
 
   @input
+  @hint("Smaller purpose line under the instruction — the 'why' for a cold viewer")
+  subText: string = "PLAN CAMERA SETUPS AROUND YOUR SUBJECT"
+
+  @input
   @hint("Text size (world-space em units; ~60 reads at 2 m)")
   @widget(new SliderWidget(30, 100, 1))
   textSize: number = 60
   @ui.group_end
 
   private text: Text | null = null
+  private sub: Text | null = null
   private fading: boolean = false
 
   onAwake(): void {
@@ -31,6 +36,18 @@ export class OnboardingHint extends BaseScriptComponent {
     t.horizontalOverflow = HorizontalOverflow.Overflow
     t.textFill.color = new vec4(0.937, 0.902, 0.839, 0.92)
     this.text = t
+
+    const subObj = global.scene.createSceneObject("HintSub")
+    subObj.setParent(this.sceneObject)
+    subObj.getTransform().setLocalPosition(new vec3(0, -13, 0))
+    const s = subObj.createComponent("Component.Text") as Text
+    s.text = this.subText
+    s.size = this.textSize * 0.62
+    s.depthTest = true
+    s.horizontalOverflow = HorizontalOverflow.Overflow
+    s.textFill.color = new vec4(0.937, 0.902, 0.839, 0.7)
+    this.sub = s
+
     this.sceneObject.createComponent(Billboard.getTypeName())
   }
 
@@ -44,8 +61,11 @@ export class OnboardingHint extends BaseScriptComponent {
     anim.bind(() => {
       elapsed += getDeltaTime()
       const d = 0.8
-      const a = Math.max(0, 0.92 * (1 - elapsed / d))
-      this.text!.textFill.color = new vec4(0.937, 0.902, 0.839, a)
+      const k = Math.max(0, 1 - elapsed / d)
+      this.text!.textFill.color = new vec4(0.937, 0.902, 0.839, 0.92 * k)
+      if (this.sub) {
+        this.sub.textFill.color = new vec4(0.937, 0.902, 0.839, 0.7 * k)
+      }
       if (elapsed >= d) {
         anim.enabled = false
         this.sceneObject.enabled = false

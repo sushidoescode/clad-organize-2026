@@ -1448,12 +1448,13 @@
   Enabled: true
   ScriptAsset: !<reference> c95d5a4f-15cc-4b26-afaf-1cf94f1f6f75
   ScriptInputsDefault:
-    {}
+    subText: true
   ScriptTypesDefault:
     {}
   ScriptInputs:
     "":
       hintText: DRAG A WEDGE TO COVER EVERY ANGLE
+      subText: PLAN CAMERA SETUPS AROUND YOUR SUBJECT
       textSize: !<float> 90.000000
   ScriptTypes:
     "":

@@ -41,6 +41,8 @@ export class WedgeController extends BaseScriptComponent {
   private shotTypeIndex: number = 0
   private rmv: RenderMeshVisual | null = null
   private typeMats: Material[] = []
+  private hoverMats: Material[] = []
+  private hovered: boolean = false
   private label: Text | null = null
   private labelTransform: Transform | null = null
 
@@ -56,6 +58,16 @@ export class WedgeController extends BaseScriptComponent {
       const m = this.wedgeMaterial.clone()
       m.mainPass.baseColor = TYPE_COLORS[i]
       this.typeMats.push(m)
+      // Hover affordance: same hue pushed toward white.
+      const h = this.wedgeMaterial.clone()
+      const c = TYPE_COLORS[i]
+      h.mainPass.baseColor = new vec4(
+        c.x + (1 - c.x) * 0.45,
+        c.y + (1 - c.y) * 0.45,
+        c.z + (1 - c.z) * 0.45,
+        c.w
+      )
+      this.hoverMats.push(h)
     }
     rmv.mainMaterial = this.typeMats[this.shotTypeIndex]
     this.rmv = rmv
@@ -80,12 +92,22 @@ export class WedgeController extends BaseScriptComponent {
     box.size = new vec3(22, 12, 28)
     collider.shape = box
 
-    this.sceneObject.createComponent(Interactable.getTypeName())
+    const interactable = this.sceneObject.createComponent(
+      Interactable.getTypeName()
+    ) as Interactable
     const manip = this.sceneObject.createComponent(
       InteractableManipulation.getTypeName()
     ) as InteractableManipulation
 
     this.createEvent("OnStartEvent").bind(() => {
+      interactable.onHoverEnter.add(() => {
+        this.hovered = true
+        this.refreshMaterial()
+      })
+      interactable.onHoverExit.add(() => {
+        this.hovered = false
+        this.refreshMaterial()
+      })
       manip.onManipulationStart.add(() => {
         this.manipulating = true
         this.grabStartPos = this.getTransform().getLocalPosition()
@@ -145,13 +167,19 @@ export class WedgeController extends BaseScriptComponent {
     console.log("[Wedge] " + this.sceneObject.name + " → " + this.shotType)
   }
 
+  private refreshMaterial(): void {
+    if (this.rmv) {
+      this.rmv.mainMaterial = (this.hovered ? this.hoverMats : this.typeMats)[
+        this.shotTypeIndex
+      ]
+    }
+  }
+
   private applyTypeVisual(): void {
     // Footprint scale + per-type color + label all derive from one index.
     const s = this.shotType === "wide" ? 1.25 : this.shotType === "medium" ? 1.0 : 0.72
     this.getTransform().setLocalScale(new vec3(s, 1, s))
-    if (this.rmv) {
-      this.rmv.mainMaterial = this.typeMats[this.shotTypeIndex]
-    }
+    this.refreshMaterial()
     if (this.label) {
       this.label.text = TYPE_LABELS[this.shotTypeIndex]
     }

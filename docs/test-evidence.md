@@ -43,6 +43,13 @@ Every element of the art-direction pass was verified in preview with captures + 
 - **Two-tone panel hero** — live count verified: showed green `9 / 12` against a restored 9-sector layout (count derived, not hard-coded), then `12 / 12 · COMPLETE` all-green at completion; `CROSSED THE LINE` caption logic unchanged.
 - **Full loop re-verified on the upgraded build** — fresh run → completion (two wides at ±45°, `[Coverage] COMPLETE`) → Reset; zero runtime errors; **full LEAF suite green (fifth full pass)**.
 
+## E6 — Cold-judge comprehension + interaction polish verification
+
+- **Identity/purpose layer** — opening-state capture shows, simultaneously: panel title SHOT COVERAGE COMPASS, two-line hint (action + "PLAN CAMERA SETUPS AROUND YOUR SUBJECT"), per-wedge shot labels, SUBJECT caption at the beacon — a cold viewer gets what/why/how in one frame.
+- **Hover glow** — held-pinch capture shows the cyan wedge paled toward white while hovered; released without a tap-cycle (no `[Wedge] →` log; travel exceeded the 2 cm tap threshold).
+- **Raise-pop** — after a coverage flip: `RingCovered` local y = 2.000 exactly (tween settled at RAISE_CM); covered marker y=2 / uncovered y=0 (LEAF observable unchanged — animation lives on the render object only).
+- **Full loop** — fresh run → completion (`[Coverage] COMPLETE`) → reset; zero runtime errors; **LEAF 4/4 green (sixth full pass)**; hero stills refreshed.
+
 ## Perf evidence
 
 See `docs/performance.md` — deliberate naive-first ring, measured Perfetto before/after (12→2 draw calls; render-path slices −3–4%; frame-time delta swamped by preview tracking noise, stated honestly), visual + behavioral parity verified.

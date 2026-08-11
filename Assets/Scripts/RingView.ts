@@ -36,6 +36,7 @@ export class RingView extends BaseScriptComponent {
   private markers: SceneObject[] = []
   private gapRmv: RenderMeshVisual
   private coveredRmv: RenderMeshVisual
+  private coveredTransform: Transform | null = null
   private coveredMat: Material
   private built: boolean = false
   private lastCoveredCount: number = 0
@@ -61,8 +62,9 @@ export class RingView extends BaseScriptComponent {
     }
     this.coveredMat = coveredMat
 
-    // Newly-covered flash: brief brightness pop on the covered arc, decaying
-    // back to the base green. Created once; enabled per flash.
+    // Newly-covered flash: brief brightness pop + a small physical rise of the
+    // covered arc (animated on the OBJECT transform — mesh and LEAF markers
+    // stay untouched, batching stays 2 draw calls). Created once; enabled per flash.
     this.flashEvent = this.createEvent("UpdateEvent")
     this.flashEvent.bind(() => {
       this.flashElapsed += getDeltaTime()
@@ -76,6 +78,11 @@ export class RingView extends BaseScriptComponent {
         a.z + (b.z - a.z) * k,
         1.0
       )
+      if (this.coveredTransform) {
+        this.coveredTransform.setLocalPosition(
+          new vec3(0, RAISE_CM * (0.45 + 0.55 * k), 0)
+        )
+      }
       if (k >= 1 && this.flashEvent) {
         this.flashEvent.enabled = false
       }
@@ -98,6 +105,8 @@ export class RingView extends BaseScriptComponent {
 
     const coveredObj = global.scene.createSceneObject("RingCovered")
     coveredObj.setParent(this.sceneObject)
+    this.coveredTransform = coveredObj.getTransform()
+    this.coveredTransform.setLocalPosition(new vec3(0, RAISE_CM, 0))
     this.coveredRmv = coveredObj.createComponent(
       "Component.RenderMeshVisual"
     ) as RenderMeshVisual
@@ -139,11 +148,13 @@ export class RingView extends BaseScriptComponent {
     if (gapMesh !== null) {
       this.gapRmv.mesh = gapMesh
     }
+    // Covered mesh is built at y=0; the raise lives on the object transform
+    // so the flash can animate it without rebuilding geometry.
     const coveredMesh = buildArcSpansMesh(
       coveredSpans,
       INNER_R,
       OUTER_R,
-      RAISE_CM,
+      0,
       ARC_SEGMENTS
     )
     this.coveredRmv.enabled = coveredMesh !== null
