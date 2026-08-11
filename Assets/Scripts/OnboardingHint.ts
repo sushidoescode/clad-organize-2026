@@ -12,7 +12,7 @@ export class OnboardingHint extends BaseScriptComponent {
   @ui.group_start("Settings")
   @input
   @hint("The single onboarding instruction")
-  hintText: string = "Drag a wedge to cover every angle"
+  hintText: string = "DRAG A WEDGE TO COVER EVERY ANGLE"
 
   @input
   @hint("Text size (world-space em units; ~60 reads at 2 m)")
@@ -29,7 +29,7 @@ export class OnboardingHint extends BaseScriptComponent {
     t.size = this.textSize
     t.depthTest = true
     t.horizontalOverflow = HorizontalOverflow.Overflow
-    t.textFill.color = new vec4(1, 1, 1, 0.92)
+    t.textFill.color = new vec4(0.937, 0.902, 0.839, 0.92)
     this.text = t
     this.sceneObject.createComponent(Billboard.getTypeName())
   }
@@ -45,7 +45,7 @@ export class OnboardingHint extends BaseScriptComponent {
       elapsed += getDeltaTime()
       const d = 0.8
       const a = Math.max(0, 0.92 * (1 - elapsed / d))
-      this.text!.textFill.color = new vec4(1, 1, 1, a)
+      this.text!.textFill.color = new vec4(0.937, 0.902, 0.839, a)
       if (elapsed >= d) {
         anim.enabled = false
         this.sceneObject.enabled = false

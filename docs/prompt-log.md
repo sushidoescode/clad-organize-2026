@@ -62,4 +62,22 @@ This log is an annotated engineering narrative, maintained continuously during d
   5. Completion re-verified end-to-end on the polished build (two wides at ±45° → `[Coverage] COMPLETE`); hero stills saved to `docs/media/` (initial red arc, full green completion) for the video edit.
   6. `docs/demo-script.md` (55 s beat sheet, camera choreography incl. verified base view `setPosition (0,70,50) → lookAt (0,-110,-250)`, cold-read gate, evidence-montage capture list) and `docs/submission-description.md` drafted.
 - **Decision:** build phase of Stage 3 complete; remaining steps are human-gated (video recording/narration, Lenslist publish question, scope freeze, compliance flip, submission).
+- **Commit:** `2229da9`.
+
+---
+
+## E4 — Visual overhaul: "Etched Light Meter" (2026-08-10, evening)
+
+- **Intent:** close the gap the human correctly called out — the Lens was a verified mechanic wearing programmer art, unacceptable against 25% UX + 25% Creativity judging. Full art-direction pass without touching verified behavior.
+- **Prompt (human, verbatim core):** *"Based on this screenshot, is this what you had thought it would look like? The UI and UX seem very rudimentary? Hardly seems polished… Remember the judging criteria is 50% CLAD, and the rest is UX and UI right? We need to nail that, and the visual representation needs to make sense and look very good."* (with a Lens Studio screenshot attached).
+- **Agents/skills:** 4-agent design workflow — three independent art-direction proposals under fixed rendering constraints (lenses: precision film instrument / premium spatial glass / theatrical stagecraft), each grounded on the actual screenshot, plus a synthesis judge. Winner: **Etched Light Meter** — everything drawn as luminous ivory line-work, chosen explicitly for SPECS additive-display physics (dark pixels render transparent on device; a "dark UI" would vanish). Implementation inline: VirtualScene single-writer, headless-Chrome SVG rasterization (LS's ConvertSvgToTexture rasterizer timed out; ImageMagick's SVG engine dropped `stop-opacity` — both dead ends documented by pixel-sampling the outputs), PreviewInteractTool drove the full verification pass, LEAF as the regression gate.
+- **Observed (chronological, deterministic):**
+  1. Four original SVG textures authored programmatically (compass-rose floor dial, hatched gap strip, gradient covered strip, beacon fade); alpha channels verified by pixel sampling after two rasterizer fallbacks.
+  2. New runtime meshes: `buildDiscMesh` (floor, planar UVs), `buildTubeMesh` (capless beacon — the preset cylinder's top cap sampled a bright texel); wedge prism lowered 6→4 cm.
+  3. Ring re-toned (tally red hatch / phosphor green gradient via textures multiplied by the existing state-tinted materials — flash lerp untouched); wedge shot types triple-coded (cyan/violet/gold materials + footprint scale + floating billboarded labels); UIKit panel restyled as a light-meter readout (COVERAGE / hero count / SECTORS / RESET MARKS); axis line ivory-at-rest.
+  4. **Floor-typography defect found by capture and fixed empirically:** the mesh-UV→sampling→camera chain shows the floor texture vertically flipped; `rotate(180)` glyphs produced reversed digit order ("0Ɛ"), `scale(1,-1)` reads correctly. Recorded as the authoring contract in the generator.
+  5. A drag landing at radius 130.1 cm read as inactive (threshold 130) — test-coordinate error, engine correct; re-verified at 120 cm.
+  6. Full interactive pass: 6/12 partial coverage, tap-cycle (`Wedge3 → wide`), amber 180°-violation, recovery, `[Coverage] COMPLETE` at 12/12, Reset. One puppet-hand retraction artifact (post-pinch ray grabbed a wedge 30 cm) identified as simulation-only; clean re-run + `compass-ik-reset` exact tray assertion green.
+  7. Full LEAF suite green against the overhauled build. New hero stills captured to `docs/media/`.
+- **Decision:** ship the overhaul; garnish items (ring under-glow quad, endcap chevrons, base reticle) deliberately cut per the judge's own cut-order. The judge's image-generation prompt was delivered to the human for an optional Gemini/ChatGPT concept-frame comparison.
 - **Commit:** (recorded on commit of this entry).

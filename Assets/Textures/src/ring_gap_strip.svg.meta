@@ -1,0 +1,16 @@
+- !<AssetImportMetadata/7ee3858a-c448-45d2-a0b3-c40d38b3bb75>
+  ImportedAssetIds:
+    VectorComposite: !<reference> 50219361-347c-4c0b-a954-b92b84a48dc4
+  ImporterName: VectorCompositeImporter
+  PrimaryAsset: !<reference> 50219361-347c-4c0b-a954-b92b84a48dc4
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    {}
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000

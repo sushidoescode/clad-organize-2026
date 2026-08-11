@@ -1,0 +1,49 @@
+- !<AssetImportMetadata/3e43bcf9-f3fb-4669-815b-60994892eb85>
+  ImportedAssetIds:
+    TypeScriptAsset: !<reference> d4514df3-0ac2-4023-85f2-350a9f633ad0
+  ImporterName: TypeScriptAssetImporter
+  PrimaryAsset: !<reference> d4514df3-0ac2-4023-85f2-350a9f633ad0
+  PackageType: NotAPackage
+  LegacyPackagePolicy: ~
+  ExtraData:
+    {}
+  AssetDataMap:
+    TypeScriptAsset: !<own> 0ac507a8-19bf-442b-9111-463eed12843b
+  DependentFiles:
+    []
+  ImporterSettings: !<AssetImporterSettings>
+    {}
+  CompressionSettings: !<own> 00000000-0000-0000-0000-000000000000
+- !<TypeScriptAssetData/0ac507a8-19bf-442b-9111-463eed12843b>
+  SvgIcon: ""
+  SetupScript:
+    code: ""
+  Description: ""
+  VersionMajor: 0
+  VersionMinor: 0
+  VersionPatch: 0
+  VersionPrerelease: ""
+  UpdateOrder: 0
+  ComponentUid: c1e00de6-d905-420c-88d2-c76a2496ea28
+  ExportUid: 00000000-0000-0000-0000-000000000000
+  PackagePolicy: CanBeUnpacked
+  ScriptInputsHidden:
+    floorMaterial: false
+    radiusCm: false
+  ScriptTypesHidden:
+    {}
+  ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
+  DeclarationFile: !<reference> 00000000-0000-0000-0000-000000000000
+  Tags:
+    []
+  Attachments:
+    []
+  DefaultScriptInputs:
+    - floorMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      radiusCm: !<float> 160.000000
+  ScriptTypes:
+    -
+      {}
+  InputLines:
+    - // @input Asset.Material floorMaterial
+    - '// @input float radiusCm = 160 {"hint":"Disc radius in cm"}'

@@ -25,6 +25,14 @@ export class RingView extends BaseScriptComponent {
   @input
   baseMaterial: Material
 
+  @input
+  @hint("Diagonal-hatch strip for uncovered sectors (white; tinted by baseColor)")
+  gapTexture: Texture
+
+  @input
+  @hint("Backlit-gradient strip for covered sectors (white; tinted by baseColor)")
+  coveredTexture: Texture
+
   private markers: SceneObject[] = []
   private gapRmv: RenderMeshVisual
   private coveredRmv: RenderMeshVisual
@@ -34,14 +42,23 @@ export class RingView extends BaseScriptComponent {
   private flashElapsed: number = 999
   private flashEvent: SceneEvent | null = null
 
-  private static readonly COVERED_BASE = new vec4(0.15, 0.8, 0.35, 1.0)
-  private static readonly COVERED_FLASH = new vec4(0.55, 1.0, 0.65, 1.0)
+  // Etched Light Meter palette: tally red (unlit lamp) vs phosphor green
+  // (backlit glass). Textures are white strips; baseColor carries the hue,
+  // so the flash lerp below keeps working unchanged.
+  private static readonly COVERED_BASE = new vec4(0.361, 0.91, 0.561, 1.0)
+  private static readonly COVERED_FLASH = new vec4(0.78, 1.0, 0.86, 1.0)
 
   onAwake(): void {
     const gapMat = this.baseMaterial.clone()
-    gapMat.mainPass.baseColor = new vec4(0.85, 0.18, 0.15, 1.0)
+    gapMat.mainPass.baseColor = new vec4(1.0, 0.353, 0.306, 1.0)
+    if (this.gapTexture) {
+      gapMat.mainPass.baseTex = this.gapTexture
+    }
     const coveredMat = this.baseMaterial.clone()
     coveredMat.mainPass.baseColor = RingView.COVERED_BASE
+    if (this.coveredTexture) {
+      coveredMat.mainPass.baseTex = this.coveredTexture
+    }
     this.coveredMat = coveredMat
 
     // Newly-covered flash: brief brightness pop on the covered arc, decaying

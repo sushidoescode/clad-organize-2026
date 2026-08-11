@@ -48,6 +48,6 @@
     - '// @ui {"widget":"label", "label":"Onboarding Hint"}'
     - '// @ui {"widget":"separator"}'
     - '// @ui {"widget":"group_start", "label":"Settings"}'
-    - '// @input string hintText = "Drag a wedge to cover every angle" {"hint":"The single onboarding instruction"}'
+    - '// @input string hintText = "DRAG A WEDGE TO COVER EVERY ANGLE" {"hint":"The single onboarding instruction"}'
     - '// @input float textSize = 60 {"hint":"Text size (world-space em units; ~60 reads at 2 m)", "widget":"slider", "min":30, "max":100, "step":1}'
     - '// @ui {"widget":"group_end"}'

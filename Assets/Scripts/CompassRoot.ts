@@ -82,10 +82,11 @@ export class CompassRoot extends BaseScriptComponent {
         "Component.RenderMeshVisual"
       ) as RenderMeshVisual
       if (this.lineVisual) {
+        // At rest the axis is quiet instrument ivory; violation flares amber.
         this.lineSlateMat = this.lineVisual.mainMaterial.clone()
-        this.lineSlateMat.mainPass.baseColor = new vec4(0.42, 0.45, 0.5, 1.0)
+        this.lineSlateMat.mainPass.baseColor = new vec4(0.85, 0.81, 0.74, 1.0)
         this.lineAmberMat = this.lineSlateMat.clone()
-        this.lineAmberMat.mainPass.baseColor = new vec4(0.98, 0.65, 0.12, 1.0)
+        this.lineAmberMat.mainPass.baseColor = new vec4(1.0, 0.671, 0.118, 1.0)
         this.lineVisual.mainMaterial = this.lineSlateMat
       }
     }

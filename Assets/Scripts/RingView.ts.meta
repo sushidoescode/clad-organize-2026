@@ -29,6 +29,8 @@
   PackagePolicy: CanBeUnpacked
   ScriptInputsHidden:
     baseMaterial: false
+    coveredTexture: false
+    gapTexture: false
   ScriptTypesHidden:
     {}
   ReadMe: !<reference> 00000000-0000-0000-0000-000000000000
@@ -39,8 +41,12 @@
     []
   DefaultScriptInputs:
     - baseMaterial: !<reference.Material> 00000000-0000-0000-0000-000000000000
+      gapTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
+      coveredTexture: !<reference.Texture> 00000000-0000-0000-0000-000000000000
   ScriptTypes:
     -
       {}
   InputLines:
     - // @input Asset.Material baseMaterial
+    - '// @input Asset.Texture gapTexture {"hint":"Diagonal-hatch strip for uncovered sectors (white; tinted by baseColor)"}'
+    - '// @input Asset.Texture coveredTexture {"hint":"Backlit-gradient strip for covered sectors (white; tinted by baseColor)"}'

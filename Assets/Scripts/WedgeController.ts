@@ -1,5 +1,6 @@
 import { Interactable } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Interactable/Interactable"
 import { InteractableManipulation } from "SpectaclesInteractionKit.lspkg/Components/Interaction/InteractableManipulation/InteractableManipulation"
+import { Billboard } from "SpectaclesInteractionKit.lspkg/Components/Interaction/Billboard/Billboard"
 import Event from "SpectaclesInteractionKit.lspkg/Utils/Event"
 import { buildWedgeMesh } from "./WedgeMeshFactory"
 import { ShotType, SHOT_TYPES, halfAngleForType } from "./CoverageEngine"
@@ -7,6 +8,16 @@ import { ShotType, SHOT_TYPES, halfAngleForType } from "./CoverageEngine"
 const TAP_MAX_TRAVEL_CM = 2.0
 /** Wedges may not leave the rehearsal floor. */
 const MAX_RADIUS_CM = 155
+
+// Etched Light Meter: shot type is triple-coded — luminous per-type color,
+// footprint scale, and a floating label. Indexed in SHOT_TYPES order.
+const TYPE_COLORS: vec4[] = [
+  new vec4(0.271, 0.839, 1.0, 1.0), // wide   — optics cyan
+  new vec4(0.616, 0.545, 1.0, 1.0), // medium — viewfinder violet
+  new vec4(1.0, 0.788, 0.302, 1.0), // close  — tungsten gold
+]
+const TYPE_LABELS: string[] = ["WIDE 24", "MED 50", "CLOSE 85"]
+const LABEL_IVORY = new vec4(0.937, 0.902, 0.839, 0.95)
 
 /**
  * One camera wedge: builds its own mesh, collider, and SIK interaction stack.
@@ -28,6 +39,10 @@ export class WedgeController extends BaseScriptComponent {
   private manipulating: boolean = false
   private grabStartPos: vec3 | null = null
   private shotTypeIndex: number = 0
+  private rmv: RenderMeshVisual | null = null
+  private typeMats: Material[] = []
+  private label: Text | null = null
+  private labelTransform: Transform | null = null
 
   onAwake(): void {
     const idx = SHOT_TYPES.indexOf(this.initialType as ShotType)
@@ -37,7 +52,26 @@ export class WedgeController extends BaseScriptComponent {
       "Component.RenderMeshVisual"
     ) as RenderMeshVisual
     rmv.mesh = buildWedgeMesh()
-    rmv.mainMaterial = this.wedgeMaterial
+    for (let i = 0; i < SHOT_TYPES.length; i++) {
+      const m = this.wedgeMaterial.clone()
+      m.mainPass.baseColor = TYPE_COLORS[i]
+      this.typeMats.push(m)
+    }
+    rmv.mainMaterial = this.typeMats[this.shotTypeIndex]
+    this.rmv = rmv
+
+    const labelObj = global.scene.createSceneObject("TypeLabel")
+    labelObj.setParent(this.sceneObject)
+    labelObj.getTransform().setLocalPosition(new vec3(0, 16, 0))
+    const labelText = labelObj.createComponent("Component.Text") as Text
+    labelText.text = TYPE_LABELS[this.shotTypeIndex]
+    labelText.size = 60
+    labelText.depthTest = true
+    labelText.horizontalOverflow = HorizontalOverflow.Overflow
+    labelText.textFill.color = LABEL_IVORY
+    labelObj.createComponent(Billboard.getTypeName())
+    this.label = labelText
+    this.labelTransform = labelObj.getTransform()
 
     const collider = this.sceneObject.createComponent(
       "Physics.ColliderComponent"
@@ -112,9 +146,19 @@ export class WedgeController extends BaseScriptComponent {
   }
 
   private applyTypeVisual(): void {
-    // Footprint scale communicates coverage width without any text.
+    // Footprint scale + per-type color + label all derive from one index.
     const s = this.shotType === "wide" ? 1.25 : this.shotType === "medium" ? 1.0 : 0.72
     this.getTransform().setLocalScale(new vec3(s, 1, s))
+    if (this.rmv) {
+      this.rmv.mainMaterial = this.typeMats[this.shotTypeIndex]
+    }
+    if (this.label) {
+      this.label.text = TYPE_LABELS[this.shotTypeIndex]
+    }
+    if (this.labelTransform) {
+      // Counter-scale so the billboarded label never stretches with footprint.
+      this.labelTransform.setLocalScale(new vec3(1 / s, 1, 1 / s))
+    }
   }
 
   /**

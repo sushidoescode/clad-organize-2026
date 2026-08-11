@@ -27,3 +27,7 @@ RingView was **built naive on purpose** (commit `0d1ee2f`): 12 separate sector `
 
 - Visual parity: initial-state and covered-state captures pixel-match the naive build (same sector gaps, colors, 2 cm raise).
 - Behavioral parity: the full 4-scenario LEAF suite passed against the optimized build, including the per-sector view==engine consistency scenario.
+
+## E4 visual-overhaul cost note
+
+The Etched Light Meter pass adds only static, user-paced content — no per-frame work: one floor-disc RMV (72-segment fan, alpha-textured), one beacon tube RMV, three billboarded wedge-label Texts, and two extra panel Texts. The batched ring stays exactly 2 draw calls (same two RMVs; textures ride the existing materials, state flip is still a rebuild-on-change). Four alpha-blended materials (floor, beacon, 2× ring) render with `depthWrite off`; total texture payload ≈ 350 KB. No new Perfetto pass was taken: nothing in this change executes per frame beyond what was already measured, and the prior analysis showed preview tracking noise (±46%) dwarfs deltas of this size — an on-device trace remains the meaningful next measurement.

@@ -46,7 +46,7 @@ export function buildWedgeMesh(): RenderMesh {
     const APEX_Z = -12;
     const BACK_Z = 12;
     const HALF_W = 9;
-    const TOP_Y = 6;
+    const TOP_Y = 4;
 
     // Footprint corners (y = 0): apex A, back-left B, back-right C.
     const ax = 0, az = APEX_Z;
@@ -165,6 +165,80 @@ export function buildArcSpansMesh(
             const outerB = base + 2 * i + 3;
             indices.push(innerA, outerA, outerB, innerA, outerB, innerB);
         }
+    }
+
+    const builder = createBuilder();
+    builder.appendVerticesInterleaved(verts);
+    builder.appendIndices(indices);
+    builder.updateMesh();
+    return builder.getMesh();
+}
+
+/**
+ * Flat disc on the XZ plane at y = 0, normal +Y, planar UVs spanning the
+ * disc's bounding square: u = (x/R+1)/2, v = (z/R+1)/2 — so a square
+ * texture maps with its center at the disc center and world +Z (the front,
+ * user side) at v = 1. Winding matches buildArcSpansMesh (visible from above).
+ */
+export function buildDiscMesh(radiusCm: number, segments: number): RenderMesh {
+    const n = Math.max(8, Math.floor(segments));
+    const DEG2RAD = Math.PI / 180;
+    const verts: number[] = [];
+    const indices: number[] = [];
+
+    pushVertex(verts, 0, 0, 0, 0, 1, 0, 0.5, 0.5); // center
+    for (let i = 0; i <= n; i++) {
+        const theta = (i / n) * 360 * DEG2RAD;
+        const dx = Math.sin(theta);
+        const dz = Math.cos(theta);
+        pushVertex(
+            verts,
+            radiusCm * dx, 0, radiusCm * dz,
+            0, 1, 0,
+            (dx + 1) / 2, (dz + 1) / 2
+        );
+    }
+    for (let i = 0; i < n; i++) {
+        indices.push(0, 1 + i, 2 + i);
+    }
+
+    const builder = createBuilder();
+    builder.appendVerticesInterleaved(verts);
+    builder.appendIndices(indices);
+    builder.updateMesh();
+    return builder.getMesh();
+}
+
+/**
+ * Open (capless) vertical tube: y in [0, heightCm], radius radiusCm,
+ * outward normals, u wraps around, v = 0 at the base -> 1 at the top.
+ * Winding is CCW viewed from outside (matches the side-quad convention in
+ * buildWedgeMesh), so it renders with default back-face culling.
+ */
+export function buildTubeMesh(
+    radiusCm: number,
+    heightCm: number,
+    segments: number
+): RenderMesh {
+    const n = Math.max(8, Math.floor(segments));
+    const DEG2RAD = Math.PI / 180;
+    const verts: number[] = [];
+    const indices: number[] = [];
+
+    for (let i = 0; i <= n; i++) {
+        const theta = (i / n) * 360 * DEG2RAD;
+        const dx = Math.sin(theta);
+        const dz = Math.cos(theta);
+        const u = i / n;
+        pushVertex(verts, radiusCm * dx, 0, radiusCm * dz, dx, 0, dz, u, 0);
+        pushVertex(verts, radiusCm * dx, heightCm, radiusCm * dz, dx, 0, dz, u, 1);
+    }
+    for (let i = 0; i < n; i++) {
+        const b0 = 2 * i;      // bottom i
+        const t0 = 2 * i + 1;  // top i
+        const b1 = 2 * i + 2;  // bottom i+1
+        const t1 = 2 * i + 3;  // top i+1
+        indices.push(b0, b1, t1, b0, t1, t0);
     }
 
     const builder = createBuilder();

@@ -9,7 +9,7 @@
 | `compass-persistence` | Wedge movement triggers debounced save; stored JSON mirrors live positions + shot types; Reset clears store and arc | ✅ passing |
 | `compass-ik-reset` | An IK-simulated user (full arm + head) physically reaches and presses Reset; tray restore verified per-wedge | ✅ passing |
 
-Suite ran green twice: after authoring (commit `a5e1859`) and re-run in full against the batched-ring perf refactor (regression gate). One real defect found by the suite and fixed: SIK far-field manipulation amplified drags ~31×, flinging wedges off the floor → rehearsal-floor boundary clamp in `WedgeController.constrain()` (now itself a tested invariant).
+Suite ran green four times: after authoring (commit `a5e1859`), against the batched-ring perf refactor, against the Stage-3 polish (`33957ad`), and in full against the E4 visual overhaul (Etched Light Meter — new floor/beacon meshes, retextured ring, per-type wedge materials). One real defect found by the suite and fixed: SIK far-field manipulation amplified drags ~31×, flinging wedges off the floor → rehearsal-floor boundary clamp in `WedgeController.constrain()` (now itself a tested invariant).
 
 ## Interactive preview verification (driven via simulated SIK input, captures + logs)
 
@@ -20,6 +20,20 @@ Suite ran green twice: after authoring (commit `a5e1859`) and re-run in full aga
 - **v2 mechanic** — tap-to-cycle logged (`Wedge2 → close`), axis-line crossing flares line amber + `LINE CROSSED` logged + status text "Crossed the line!" (framed panel capture); persistence round-trip across a Lens reset restored 3 wedges and correctly re-derived the violation state on load.
 - **SFX** — all four `play()` paths exercised clean (tick during drag, chime on completion, warning on crossing, whoosh on reset). Audio is not capturable in screenshots; WAVs verified non-empty on disk, playback verified error-free.
 - **Completion pulse** — cosmetic scale pulse added after the perf pass; compile + clean-run verified; guarded by the LEAF suite for behavioral regressions (animation is self-terminating, display-only).
+
+## E4 — Visual overhaul verification (Etched Light Meter)
+
+Every element of the art-direction pass was verified in preview with captures + logs before commit:
+
+- **Floor compass rose** — engraved-dial texture (ticks, concentric hairlines, degree numerals, spike-tape T, index triangles) renders on a runtime disc mesh; degree numerals verified **upright and unmirrored from the demo camera** after an empirical fix: the mesh-UV → texture-sampling → camera chain displays the floor texture vertically flipped, so glyphs are authored `scale(1,-1)` (first attempt `rotate(180)` produced reversed digit order — caught by capture, corrected, re-verified).
+- **Ring re-tone** — gap sectors: tally-red diagonal-hatch texture with bright outer-edge stroke; covered sectors: phosphor-green gradient with baked near-white top hairline. Verified live: wide wedge at −45° flipped exactly sectors 0–5 (6/12 on the panel), engine↔view consistent.
+- **Threshold behavior re-confirmed incidentally**: a drag landing at planar radius 130.1 cm (just past ACTIVE_RADIUS 130) correctly counted as inactive.
+- **Wedge type coding** — per-type materials (WIDE cyan / MED violet / CLOSE gold) + floating billboarded labels ("WIDE 24 / MED 50 / CLOSE 85"); tap-cycle verified (`[Wedge] Wedge3 → wide` + color and label swap in capture); labels counter-scaled so footprint scaling never stretches them (close-up capture legible).
+- **Beacon subject** — capless MeshBuilder tube with vertical alpha fade (bright base → dissolved top); replaced the preset cylinder whose top cap sampled a bright texel ellipse.
+- **Violation beat** — wedge dragged behind subject: axis flared amber, `LINE CROSSED` logged, coverage preserved (behind-line wedge contributes violation, not coverage).
+- **Completion** — two wide wedges at ±45°: full green arc, `[Coverage] COMPLETE` logged, panel hero `12 / 12` green + `COMPLETE` caption (capture = `docs/media/hero_coverage_complete.png`).
+- **Reset** — RESET MARKS button pinch restores tray (runtime query: ±0.06 cm of nominal; exact restore separately asserted by `compass-ik-reset`, green). One observed 30 cm post-pinch wedge displacement was traced to the PreviewInteractTool puppet-hand retraction ray grabbing a wedge — a simulation artifact (absent with real hands), not a Lens defect; second clean run + LEAF confirmed.
+- **Zero runtime errors** across all E4 passes; full LEAF suite green as the final gate.
 
 ## Perf evidence
 

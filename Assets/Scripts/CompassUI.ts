@@ -15,16 +15,14 @@ const LAYOUT_Z_LIFT = 0.02
 const CONTENT_Z = 0.6
 const DYNAMIC_TEXT_Z = 0.15
 
-// Type scale (Far / z=-110). ElementContent has no weight setter — size only.
-const TYPE_SCALE: { [role: string]: number } = {
-  Button: 39,
-  Body: 39,
-  Caption: 38,
-}
-const FONT_SIZE_SCALE = 1.0
-function roleSize(role: string): number {
-  return (TYPE_SCALE[role] ?? 39) * FONT_SIZE_SCALE
-}
+// Etched Light Meter type scale (Far / z=-110). ElementContent has no
+// weight setter — hierarchy is carried by size and color alone.
+const SIZE_TITLE = 26
+const SIZE_HERO = 64
+const SIZE_CAPTION = 22
+const SIZE_BUTTON = 34
+const IVORY = new vec4(0.937, 0.902, 0.839, 1.0)
+const IVORY_DIM = new vec4(0.937, 0.902, 0.839, 0.62)
 
 /**
  * CompassUI — control panel for the Shot Coverage Compass: a live coverage
@@ -38,12 +36,12 @@ export class CompassUI extends BaseScriptComponent {
   @ui.group_start("Settings")
   @input
   @hint("Label shown on the reset button")
-  labelText: string = "Reset"
+  labelText: string = "RESET MARKS"
 
   @input
   @hint("Button width in cm (min 5.5 for a 5-char label)")
   @widget(new SliderWidget(5.5, 16, 0.5))
-  buttonWidth: number = 12
+  buttonWidth: number = 14
 
   @input
   @hint("Button height in cm (min 4 cm touch target)")
@@ -66,7 +64,8 @@ export class CompassUI extends BaseScriptComponent {
     return this._onReset.publicApi()
   }
 
-  private statusText: Text | null = null
+  private heroText: Text | null = null
+  private captionText: Text | null = null
 
   onAwake(): void {
     this.sceneObject.createComponent("Component.Canvas")
@@ -77,24 +76,38 @@ export class CompassUI extends BaseScriptComponent {
 
     const panelW = this.buttonWidth + 3
     const content = this.obj(this.sceneObject, "Content", new vec3(0, 0, CONTENT_Z))
-    const col = this.flexColumn(content, panelW, this.buttonHeight + 6, {
+    const col = this.flexColumn(content, panelW, this.buttonHeight + 13.5, {
       justify: FlexJustify.Center,
       align: FlexAlign.Center,
-      gap: 0.9,
+      gap: 0.7,
       padY: 1.2,
       padX: 1.2,
     })
 
-    this.flexChild(col, { w: panelW - 2.4, h: 2.6 }, (txtObj) => {
-      this.liftInZ(txtObj, DYNAMIC_TEXT_Z)
-      const t = txtObj.createComponent("Component.Text") as Text
-      t.text = "0/12 covered"
-      t.size = roleSize("Caption")
-      t.depthTest = true
-      t.horizontalOverflow = HorizontalOverflow.Overflow
-      t.layoutRect = Rect.create(-(panelW - 2.4) / 2, (panelW - 2.4) / 2, -1.3, 1.3)
-      this.statusText = t
-    })
+    const makeText = (
+      h: number,
+      size: number,
+      initial: string,
+      color: vec4
+    ): Text => {
+      let made: Text | null = null
+      this.flexChild(col, { w: panelW - 2.4, h: h }, (txtObj) => {
+        this.liftInZ(txtObj, DYNAMIC_TEXT_Z)
+        const t = txtObj.createComponent("Component.Text") as Text
+        t.text = initial
+        t.size = size
+        t.depthTest = true
+        t.horizontalOverflow = HorizontalOverflow.Overflow
+        t.layoutRect = Rect.create(-(panelW - 2.4) / 2, (panelW - 2.4) / 2, -h / 2, h / 2)
+        t.textFill.color = color
+        made = t
+      })
+      return made!
+    }
+
+    makeText(2.0, SIZE_TITLE, "COVERAGE", IVORY_DIM)
+    this.heroText = makeText(4.8, SIZE_HERO, "0 / 12", IVORY)
+    this.captionText = makeText(1.8, SIZE_CAPTION, "SECTORS", IVORY_DIM)
 
     this.flexChild(col, { w: this.buttonWidth, h: this.buttonHeight }, (btnObj) => {
       const btn = btnObj.createComponent(Button.getTypeName()) as Button
@@ -105,7 +118,7 @@ export class CompassUI extends BaseScriptComponent {
         ElementContent.getTypeName()
       ) as ElementContent
       ec.text = this.labelText
-      ec.textSize = roleSize("Button")
+      ec.textSize = SIZE_BUTTON
       ec.contentAlignment = "center"
       btn.onTriggerUp.add(() => {
         this._onReset.invoke()
@@ -127,18 +140,22 @@ export class CompassUI extends BaseScriptComponent {
     complete: boolean,
     lineViolation: boolean
   ): void {
-    if (!this.statusText) {
+    if (!this.heroText || !this.captionText) {
       return
     }
+    this.heroText.text = covered + " / " + total
     if (complete) {
-      this.statusText.text = "Coverage complete"
-      this.statusText.textFill.color = this.completeColor
+      this.heroText.textFill.color = this.completeColor
+      this.captionText.text = "COMPLETE"
+      this.captionText.textFill.color = this.completeColor
     } else if (lineViolation) {
-      this.statusText.text = "Crossed the line!"
-      this.statusText.textFill.color = this.warnColor
+      this.heroText.textFill.color = IVORY
+      this.captionText.text = "CROSSED THE LINE"
+      this.captionText.textFill.color = this.warnColor
     } else {
-      this.statusText.text = covered + "/" + total + " covered"
-      this.statusText.textFill.color = new vec4(1, 1, 1, 1)
+      this.heroText.textFill.color = IVORY
+      this.captionText.text = "SECTORS"
+      this.captionText.textFill.color = IVORY_DIM
     }
   }
 
