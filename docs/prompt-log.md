@@ -80,4 +80,22 @@ This log is an annotated engineering narrative, maintained continuously during d
   6. Full interactive pass: 6/12 partial coverage, tap-cycle (`Wedge3 → wide`), amber 180°-violation, recovery, `[Coverage] COMPLETE` at 12/12, Reset. One puppet-hand retraction artifact (post-pinch ray grabbed a wedge 30 cm) identified as simulation-only; clean re-run + `compass-ik-reset` exact tray assertion green.
   7. Full LEAF suite green against the overhauled build. New hero stills captured to `docs/media/`.
 - **Decision:** ship the overhaul; garnish items (ring under-glow quad, endcap chevrons, base reticle) deliberately cut per the judge's own cut-order. The judge's image-generation prompt was delivered to the human for an optional Gemini/ChatGPT concept-frame comparison.
+- **Commit:** `dcd0911`.
+
+---
+
+## E5 — Concept-frame gap closure (2026-08-10, late evening)
+
+- **Intent:** the human generated the E4 image prompt through Gemini and ChatGPT and returned both concept frames plus a live screenshot, asking how to take the build "to the next complete level". Both concepts agreed on five concrete elements the build lacked — treat that agreement as a design review and close the gaps.
+- **Prompt (human):** *"It looks a whole long better now. Is there a UI panel of some kind? … here are the two generated images I got back … What other ways can we optimize, polish, enhance and evolve this build to the next completel level?"* (three images attached).
+- **Agents/skills:** inline gap analysis against both concept frames; VirtualScene single-writer; headless-Chrome SVG rasterization; PreviewInteractTool verification; LEAF regression gate.
+- **Observed:**
+  1. **Sector tile rims** — full luminous edge frames baked into both ring strip textures (side strokes at u=0/1 land exactly on each span's radial edges; zero new draw calls, ring still 2).
+  2. **Under-ring glow restored** — the E4-cut glow annulus re-baked into the floor texture (Chrome, unlike ImageMagick, honors `stop-opacity`); tick/numeral opacities biased up ~1.25× per the additive-display risk note.
+  3. **Wedges as luminous outlined markers** — shared etched top-face texture (triangle rim + focal ticks + 0.55-alpha body) on the type-tinted materials, blend Normal; wedges now read as glowing glass, floor rose visible through them.
+  4. **Base reticle** under the beacon (from the judge's cut list, reinstated by the concepts' agreement): 20 cm textured FloorDisc, +1 draw call.
+  5. **Panel presentation** — scaled 1.5→1.8; two-tone hero implemented as a UIKit flex row (count Text in phosphor green beside ivory "/ 12" — a single Text carries one fill color); verified live showing 9/12 from a restored layout; hero-row spacing tightened once after capture; panel repositioned twice by capture (first spot left it out of the demo frame — final local (64, 60, 95)).
+  6. Axis line slimmed (270×0.8×2).
+  7. Full pass re-verified: fresh-run opening state, completion via two wides at ±45° (`[Coverage] COMPLETE`), hint-dismiss nudge for the still, Reset; **LEAF 4/4 green**; new hero stills saved.
+- **Decision:** the two concept frames are archived as the art-direction reference; remaining deltas (true bloom halos, photoreal room) are out of scope — they are renderer/passthrough properties, not Lens content.
 - **Commit:** (recorded on commit of this entry).

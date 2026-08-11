@@ -64,7 +64,8 @@ export class CompassUI extends BaseScriptComponent {
     return this._onReset.publicApi()
   }
 
-  private heroText: Text | null = null
+  private heroCount: Text | null = null
+  private heroTotal: Text | null = null
   private captionText: Text | null = null
 
   onAwake(): void {
@@ -106,7 +107,28 @@ export class CompassUI extends BaseScriptComponent {
     }
 
     makeText(2.0, SIZE_TITLE, "COVERAGE", IVORY_DIM)
-    this.heroText = makeText(4.8, SIZE_HERO, "0 / 12", IVORY)
+
+    // Two-tone hero: covered count in phosphor green beside an ivory total
+    // (a Text can only carry one fill color, so the hero is a flex row).
+    const heroRow = this.flexRow(col, panelW - 2.4, 4.8, 0.2)
+    const heroInRow = (w: number, size: number, initial: string, color: vec4): Text => {
+      let made: Text | null = null
+      this.flexChild(heroRow, { w: w, h: 4.8 }, (txtObj) => {
+        this.liftInZ(txtObj, DYNAMIC_TEXT_Z)
+        const t = txtObj.createComponent("Component.Text") as Text
+        t.text = initial
+        t.size = size
+        t.depthTest = true
+        t.horizontalOverflow = HorizontalOverflow.Overflow
+        t.layoutRect = Rect.create(-w / 2, w / 2, -2.4, 2.4)
+        t.textFill.color = color
+        made = t
+      })
+      return made!
+    }
+    this.heroCount = heroInRow(2.4, SIZE_HERO, "0", this.completeColor)
+    this.heroTotal = heroInRow(3.2, SIZE_HERO - 22, "/ 12", IVORY)
+
     this.captionText = makeText(1.8, SIZE_CAPTION, "SECTORS", IVORY_DIM)
 
     this.flexChild(col, { w: this.buttonWidth, h: this.buttonHeight }, (btnObj) => {
@@ -140,20 +162,21 @@ export class CompassUI extends BaseScriptComponent {
     complete: boolean,
     lineViolation: boolean
   ): void {
-    if (!this.heroText || !this.captionText) {
+    if (!this.heroCount || !this.heroTotal || !this.captionText) {
       return
     }
-    this.heroText.text = covered + " / " + total
+    this.heroCount.text = String(covered)
+    this.heroTotal.text = "/ " + total
     if (complete) {
-      this.heroText.textFill.color = this.completeColor
+      this.heroTotal.textFill.color = this.completeColor
       this.captionText.text = "COMPLETE"
       this.captionText.textFill.color = this.completeColor
     } else if (lineViolation) {
-      this.heroText.textFill.color = IVORY
+      this.heroTotal.textFill.color = IVORY
       this.captionText.text = "CROSSED THE LINE"
       this.captionText.textFill.color = this.warnColor
     } else {
-      this.heroText.textFill.color = IVORY
+      this.heroTotal.textFill.color = IVORY
       this.captionText.text = "SECTORS"
       this.captionText.textFill.color = IVORY_DIM
     }
@@ -201,6 +224,29 @@ export class CompassUI extends BaseScriptComponent {
       flexLayout.paddingRight = opts?.padX ?? 0
       flexLayout.justifyContent = opts?.justify ?? FlexJustify.Start
       flexLayout.alignItems = opts?.align ?? FlexAlign.Stretch
+    })
+    return container
+  }
+
+  private flexRow(
+    parent: SceneObject,
+    width: number,
+    height: number,
+    gap: number
+  ): SceneObject {
+    const container = this.obj(parent, "HeroRow")
+    this.liftInZ(container, LAYOUT_Z_LIFT)
+    const flexLayout = container.createComponent(FlexLayout.getTypeName()) as FlexLayout
+    const flexItem = container.createComponent(FlexItem.getTypeName()) as FlexItem
+    flexItem.overrideWidth = width
+    flexItem.overrideHeight = height
+    flexLayout.onInitialized.add(() => {
+      flexLayout.width = width
+      flexLayout.height = height
+      flexLayout.direction = FlexDirection.Row
+      flexLayout.columnGap = gap
+      flexLayout.justifyContent = FlexJustify.Center
+      flexLayout.alignItems = FlexAlign.Center
     })
     return container
   }

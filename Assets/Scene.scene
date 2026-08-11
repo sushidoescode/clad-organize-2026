@@ -1276,6 +1276,7 @@
     - !<own> 81fc2838-2ba4-4eb8-a129-89d84bcccead
     - !<own> fefd5c74-8395-48fd-b142-04809a879871
     - !<own> 3deeab51-9d90-452b-9ba4-7254dda82525
+    - !<own> f122838a-ca0f-4c71-ab35-14cb9a68d264
   Components:
     - !<own> ef681746-ffff-45dd-8798-593374257e83
 - !<ScriptComponent/64f27597-c99d-4c59-8a08-05459cc2258d>
@@ -1663,9 +1664,9 @@
   Enabled: true
   Layers: 1
   LocalTransform: !<TransformEntity>
-    Position: {x: 70.000000, y: 65.000000, z: 100.000000}
+    Position: {x: 64.000000, y: 60.000000, z: 95.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 1.500000, y: 1.500000, z: 1.500000}
+    Scale: {x: 1.800000, y: 1.800000, z: 1.800000}
     HasSegmentScaleCompensation: false
   Children:
     []
@@ -1883,6 +1884,23 @@
     - !<own> a4de4ce7-f468-4966-8a06-e29eea60c023
   Components:
     []
+- !<ScriptComponent/99cc61ba-1e40-48a0-884f-5a44190ddf86>
+  PrefabRemaps:
+    []
+  Name: FloorDisc
+  Enabled: true
+  ScriptAsset: !<reference> d4514df3-0ac2-4023-85f2-350a9f633ad0
+  ScriptInputsDefault:
+    {}
+  ScriptTypesDefault:
+    {}
+  ScriptInputs:
+    "":
+      floorMaterial: !<reference.Material> 23eb3424-4e2d-4241-bbbd-98da688cdd8b
+      radiusCm: !<float> 20.000000
+  ScriptTypes:
+    "":
+      {}
 - !<SceneObject/9ab8707f-790d-4377-b174-d7f86e7dedbd>
   PrefabRemaps:
     []
@@ -2818,6 +2836,21 @@
     []
   Components:
     []
+- !<SceneObject/f122838a-ca0f-4c71-ab35-14cb9a68d264>
+  PrefabRemaps:
+    []
+  Name: BaseReticle
+  Enabled: true
+  Layers: 1
+  LocalTransform: !<TransformEntity>
+    Position: {x: 0.000000, y: 0.150000, z: 0.000000}
+    Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
+    Scale: {x: 1.000000, y: 1.000000, z: 1.000000}
+    HasSegmentScaleCompensation: false
+  Children:
+    []
+  Components:
+    - !<own> 99cc61ba-1e40-48a0-884f-5a44190ddf86
 - !<SceneObject/f36287fd-ed56-442d-ba20-78f9ef6f3502>
   PrefabRemaps:
     []
@@ -3064,7 +3097,7 @@
   LocalTransform: !<TransformEntity>
     Position: {x: 0.000000, y: 0.500000, z: 0.000000}
     Rotation: {x: 0.000000, y: 0.000000, z: 0.000000}
-    Scale: {x: 270.000000, y: 1.000000, z: 3.000000}
+    Scale: {x: 270.000000, y: 0.800000, z: 2.000000}
     HasSegmentScaleCompensation: false
   Children:
     []

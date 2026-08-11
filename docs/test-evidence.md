@@ -35,6 +35,14 @@ Every element of the art-direction pass was verified in preview with captures + 
 - **Reset** — RESET MARKS button pinch restores tray (runtime query: ±0.06 cm of nominal; exact restore separately asserted by `compass-ik-reset`, green). One observed 30 cm post-pinch wedge displacement was traced to the PreviewInteractTool puppet-hand retraction ray grabbing a wedge — a simulation artifact (absent with real hands), not a Lens defect; second clean run + LEAF confirmed.
 - **Zero runtime errors** across all E4 passes; full LEAF suite green as the final gate.
 
+## E5 — Concept-frame gap closure verification
+
+- **Sector rims / glow / brighter dial** — verified in captures from the demo camera: each red/green sector reads as a rimmed tile, glow band floats the ring, numerals and ticks noticeably brighter.
+- **Translucent etched wedges** — rim + focal ticks visible through the tinted glass body on all three types; labels unaffected.
+- **Base reticle** — double circle + stubs rendered at the beacon base, aligned with the floor crosshair.
+- **Two-tone panel hero** — live count verified: showed green `9 / 12` against a restored 9-sector layout (count derived, not hard-coded), then `12 / 12 · COMPLETE` all-green at completion; `CROSSED THE LINE` caption logic unchanged.
+- **Full loop re-verified on the upgraded build** — fresh run → completion (two wides at ±45°, `[Coverage] COMPLETE`) → Reset; zero runtime errors; **full LEAF suite green (fifth full pass)**.
+
 ## Perf evidence
 
 See `docs/performance.md` — deliberate naive-first ring, measured Perfetto before/after (12→2 draw calls; render-path slices −3–4%; frame-time delta swamped by preview tracking noise, stated honestly), visual + behavioral parity verified.
