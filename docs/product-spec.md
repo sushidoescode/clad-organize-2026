@@ -1,5 +1,14 @@
 # Product Spec — Continuity Compass (coverage cut)
 
+> **Status: historical (vertical-slice spec, approved 2026-08-10).** This document
+> governed the initial slice and is preserved as decision evidence. The shipped
+> v2 mechanic differs deliberately: **12 sectors over the front 180° working arc**
+> (not 24 over 360°), **per-shot-type half-angles** (wide 45° / medium 30° / close
+> 20°, not a fixed ±60°), an active-radius rule (130 cm), the 180°-line violation
+> warning, cross-session persistence, and an immediate (non-tweened) Reset. The
+> final architecture is described in `docs/architecture.md`; the change rationale
+> is logged in `docs/prompt-log.md` (E2).
+
 Approved 2026-08-10 at the Phase D gate. Build identity: **Shot Coverage Compass**. This spec governs scope; the scope-freeze gate applies after the vertical slice — any later feature enters only by replacing another.
 
 ## One primary user

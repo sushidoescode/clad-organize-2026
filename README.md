@@ -10,7 +10,7 @@ The organizing value is spatial by construction: the tool reasons about real ang
 
 1. Open `Organize-2026.esproj` in Lens Studio 5.23+ (project pins SIK 2.0.0, UI Kit 2.0.0, LEAF 2.0.2).
 2. Preview panel → SPECS 27, Interactive.
-3. Drag the cyan wedges from the tray into the ring (mouse in preview / pinch on device). Watch sectors flip green with a tick; complete the arc for the chime + pulse.
+3. Drag the wedges (cyan WIDE, violet MED, gold CLOSE) from the tray into the ring (mouse in preview / pinch on device). Watch sectors flip green with a tick; two WIDE wedges at ±45° complete the arc for the chime + pulse.
 4. Tap (pinch without moving) a wedge to cycle wide → medium → close.
 5. Drag a wedge behind the subject to see the axis-line warning.
 6. The Reset button on the floating panel returns to a clean tray.
@@ -22,10 +22,11 @@ Window → LEAF panel → run the four scenarios (`compass-engine-math`, `compas
 ## How it's built
 
 - `Assets/Scripts/CoverageEngine.ts` — pure angular-sector math (single source of truth; LEAF target).
-- `WedgeController.ts` — SIK Interactable/Manipulation wedges: floor-plane constraint, rehearsal-floor boundary clamp (a defect LEAF surfaced — far-field manipulation could fling wedges meters away), face-subject yaw, tap-to-cycle shot types.
-- `RingView.ts` — batched two-mesh arc rendering (12→2 draw calls, measured — see `docs/performance.md`) with per-sector state markers.
-- `CompassRoot.ts` — the one stateful coordinator: derive → render → warn → persist (debounced) → SFX.
-- `CompassUI.ts` — SpectaclesUIKit panel (live status + Reset), billboarded.
+- `Assets/Scripts/WedgeController.ts` — SIK Interactable/Manipulation wedges: floor-plane constraint, rehearsal-floor boundary clamp (a defect LEAF surfaced — far-field manipulation could fling wedges meters away), face-subject yaw, tap-to-cycle shot types, hover glow.
+- `Assets/Scripts/RingView.ts` — batched two-mesh arc rendering (ring visuals 12 → ≤2, structural; see the corrected analysis in `docs/performance.md`) with per-sector state markers and a rebuild-on-change guard.
+- `Assets/Scripts/CompassRoot.ts` — the one stateful coordinator: derive → render → warn → persist (debounced, validated) → SFX.
+- `Assets/Scripts/CompassUI.ts` — SpectaclesUIKit panel (live status + Reset), billboarded.
+- `Assets/Textures/src/` + `tempAssetGen/` — all art is original generated SVG→PNG (committed generators).
 - `Assets/GeneratedSFX/` — license-clean algorithmic SFX (tick / chime / warning / whoosh).
 
-Everything scene-side was authored through CLAD (VirtualScene single-writer, preview-verified at every step). The full engineering narrative — prompts, agents/skills, observed results, verification evidence, decisions, commit hashes — is in `docs/prompt-log.md`; supporting docs: `docs/product-spec.md`, `architecture.md`, `research-audit.md`, `idea-scorecard.md`, `decision-memo.md`, `risk-register.md`, `performance.md`, `test-evidence.md`.
+Everything scene-side was authored through CLAD (VirtualScene single-writer, preview-verified at every step). The full engineering narrative — prompts, agents/skills, observed results, verification evidence, decisions, commit hashes — is in `docs/prompt-log.md` (a curated annotated development log of the build iterations); supporting docs: `docs/architecture.md` (final system), `product-spec.md` (historical slice spec), `research-audit.md`, `idea-scorecard.md`, `decision-memo.md`, `risk-register.md`, `performance.md`, `test-evidence.md`, `originality-check.md`, and the claim→artifact map in `docs/evidence/`.

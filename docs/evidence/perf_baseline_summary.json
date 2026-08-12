@@ -1,0 +1,335 @@
+{
+  "lensActivationTimeMs": null,
+  "fpsEstimate": 1125.3,
+  "totalDurationMs": 7886.82,
+  "slowFrames": [],
+  "topSlices": [
+    {
+      "name": "ProcessFrame",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 1261.03,
+      "avgDurationMs": 3.55,
+      "maxDurationMs": 12.23,
+      "minDepth": 0,
+      "dominantChildHint": {
+        "childName": "Track",
+        "childTotalMs": 1009.68,
+        "pctOfParent": 80.1
+      },
+      "severity": "ok",
+      "label": "avg 3.55ms/call; 355 calls; total 1261.03ms"
+    },
+    {
+      "name": "Track",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 1009.68,
+      "avgDurationMs": 2.84,
+      "maxDurationMs": 10.1,
+      "minDepth": 1,
+      "severity": "ok",
+      "label": "avg 2.84ms/call; 355 calls; total 1009.68ms"
+    },
+    {
+      "name": "CoreManagerRender",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 517.94,
+      "avgDurationMs": 1.46,
+      "maxDurationMs": 5.69,
+      "minDepth": 0,
+      "dominantChildHint": {
+        "childName": "ScnFrame",
+        "childTotalMs": 474.75,
+        "pctOfParent": 91.7
+      },
+      "severity": "ok",
+      "label": "avg 1.46ms/call; 355 calls; total 517.94ms"
+    },
+    {
+      "name": "ScnFrame",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 474.75,
+      "avgDurationMs": 1.34,
+      "maxDurationMs": 5.37,
+      "minDepth": 1,
+      "severity": "ok",
+      "label": "avg 1.34ms/call; 355 calls; total 474.75ms"
+    },
+    {
+      "name": "FaceDetectPreprocess",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 356,
+      "totalDurationMs": 176.28,
+      "avgDurationMs": 0.5,
+      "maxDurationMs": 4.14,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.5ms/call; 356 calls; total 176.28ms"
+    },
+    {
+      "name": "RenderFrame",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 173.9,
+      "avgDurationMs": 0.49,
+      "maxDurationMs": 1.54,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.49ms/call; 355 calls; total 173.9ms"
+    },
+    {
+      "name": "Camera",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 166.51,
+      "avgDurationMs": 0.47,
+      "maxDurationMs": 1.53,
+      "minDepth": 3,
+      "severity": "ok",
+      "label": "avg 0.47ms/call; 355 calls; total 166.51ms"
+    },
+    {
+      "name": "RenderPass",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 710,
+      "totalDurationMs": 162.22,
+      "avgDurationMs": 0.23,
+      "maxDurationMs": 1.17,
+      "minDepth": 4,
+      "severity": "ok",
+      "label": "avg 0.23ms/call; 710 calls; total 162.22ms"
+    },
+    {
+      "name": "Visual",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 7810,
+      "totalDurationMs": 132.31,
+      "avgDurationMs": 0.02,
+      "maxDurationMs": 0.71,
+      "minDepth": 5,
+      "severity": "ok",
+      "label": "avg 0.02ms/call; 7810 calls; total 132.31ms"
+    },
+    {
+      "name": "Scene::Update",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 105.76,
+      "avgDurationMs": 0.3,
+      "maxDurationMs": 1.32,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.3ms/call; 355 calls; total 105.76ms"
+    },
+    {
+      "name": "Scene::LateUpdate",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 53.48,
+      "avgDurationMs": 0.15,
+      "maxDurationMs": 1.06,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.15ms/call; 355 calls; total 53.48ms"
+    },
+    {
+      "name": "PfttThrottle",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 36.08,
+      "avgDurationMs": 0.1,
+      "maxDurationMs": 0.44,
+      "minDepth": 1,
+      "severity": "ok",
+      "label": "avg 0.1ms/call; 355 calls; total 36.08ms"
+    },
+    {
+      "name": "DrawCall",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 7810,
+      "totalDurationMs": 33.5,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.14,
+      "minDepth": 5,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 7810 calls; total 33.5ms"
+    },
+    {
+      "name": "Scene::PhysicsUpdate",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 12.34,
+      "avgDurationMs": 0.03,
+      "maxDurationMs": 0.12,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.03ms/call; 355 calls; total 12.34ms"
+    },
+    {
+      "name": "Scene::Start",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 1.7,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.03,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 355 calls; total 1.7ms"
+    },
+    {
+      "name": "FaceTrack",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 356,
+      "totalDurationMs": 1.62,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.03,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 356 calls; total 1.62ms"
+    },
+    {
+      "name": "GetShader",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 7154,
+      "totalDurationMs": 1.59,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.08,
+      "minDepth": 5,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 7154 calls; total 1.59ms"
+    },
+    {
+      "name": "Scene::ScriptCallbacks",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 0.19,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.03,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 355 calls; total 0.19ms"
+    },
+    {
+      "name": "Scene::AnimationSystem",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 0.14,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.0,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 355 calls; total 0.14ms"
+    },
+    {
+      "name": "Scene::CurveSystem",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 0.14,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.01,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 355 calls; total 0.14ms"
+    },
+    {
+      "name": "Scene::TrackingSystem",
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "callCount": 355,
+      "totalDurationMs": 0.09,
+      "avgDurationMs": 0.0,
+      "maxDurationMs": 0.01,
+      "minDepth": 2,
+      "severity": "ok",
+      "label": "avg 0.0ms/call; 355 calls; total 0.09ms"
+    }
+  ],
+  "threadActivity": [
+    {
+      "trackId": 0,
+      "trackName": "(unnamed)",
+      "sliceCount": 29521,
+      "totalDurationMs": 4321.24,
+      "maxDurationMs": 12.23
+    }
+  ],
+  "frameTimingStats": {
+    "threadName": "(unnamed)",
+    "trackId": 0,
+    "sampleCount": 708,
+    "p50Ms": 2.85,
+    "p90Ms": 3.77,
+    "p99Ms": 6.15,
+    "maxMs": 12.23,
+    "minMs": 1.0
+  },
+  "tracks": [
+    "RenderToInterTextureNum",
+    "DrawCallNum",
+    "PrimitiveNum",
+    "ShaderBindNum",
+    "TextureBindNum"
+  ],
+  "textureAttributions": [],
+  "notes": [
+    "FPS estimate may be unreliable (raw heuristic).",
+    "captureProfile auto-detect had low confidence\u2014verify against known capture device or tune heuristics in analyze_lens_trace.py (_infer_capture_profile)."
+  ],
+  "captureProfile": "mobile",
+  "captureProfileConfidence": "low",
+  "captureProfileSignals": [
+    "default_mobile_ambiguous"
+  ],
+  "captureProfileScores": {
+    "spectacles": 0,
+    "mobile": 0
+  },
+  "captureProfileQueryErrors": [
+    "SELECT name, string_value FROM metadata WHERE name: Traceback (most recent call last):\n  File \"stdin\" line 1 col 14\n    SELECT name, string_value FROM metadata WHERE name IS NOT NULL OR string_value IS NOT NULL LIMIT 80\n                 ^\nno such column: string_value",
+    "SELECT key, string_value FROM meta WHERE key IS NO: Traceback (most recent call last):\n  File \"stdin\" line 1 col 1\n    SELECT key, string_value FROM meta WHERE key IS NOT NULL OR string_value IS NOT NULL LIMIT 80\n    ^\nno such table: meta"
+  ],
+  "slowFrameBudgetMs": 33.3,
+  "thresholds": {
+    "latTargetMs": 200,
+    "frameBudget60fpsMs": 16.7,
+    "frameBudget30fpsMs": 33.3,
+    "slowFrameDetectionBudgetMs": 33.3
+  },
+  "longestFrameMs": 12.23,
+  "slowFrameCount": {
+    "over30fpsBudget": 0,
+    "over60fpsBudget": 0,
+    "overPrimaryBudget": 0
+  },
+  "fpsEstimateUnreliable": true,
+  "earlyHitchCount": 0,
+  "lateHitchCount": 0,
+  "timingInterpretation": "Hitches in the first 500ms suggest activation-time issues; hitches later in the trace may be interaction-related.",
+  "captureContext": "Mobile Lens Profiler traces typically start when the lens is pushed to the device with profiling enabled\u2014the beginning of the file reflects lens open and activation. Do not ask the user whether the trace 'starts at open'; assume activation unless they say they reproduced a hitch only after interacting later.",
+  "suggestedActions": [
+    "Optional: did you reproduce the hitch only after a specific tap or gesture? (Trace still starts at launch; late-phase slices then point to that interaction.)"
+  ]
+}

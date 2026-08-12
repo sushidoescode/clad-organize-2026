@@ -6,6 +6,7 @@ import {
   angularDistanceDeg,
   computeSectors,
   coveredCount,
+  halfAngleForType,
   isComplete,
   lineViolations,
 } from "./CoverageEngine"
@@ -41,6 +42,28 @@ export class CompassEngineScenario extends Scenario {
     const twoWides = computeSectors([wedge(-45, 45, 100), wedge(45, 45, 100)])
     expect(coveredCount(twoWides)).toBe(12)
     expect(isComplete(twoWides)).toBe(true)
+
+    // Shot-type → half-angle mapping, asserted through the SAME path the
+    // product uses (not just the wide literal above).
+    expect(halfAngleForType("wide")).toBe(45)
+    expect(halfAngleForType("medium")).toBe(30)
+    expect(halfAngleForType("close")).toBe(20)
+    // Medium (±30°) at bearing 0 covers the 4 central sectors
+    // (centers -22.5° … +22.5°).
+    const oneMedium = computeSectors([wedge(0, halfAngleForType("medium"), 100)])
+    expect(coveredCount(oneMedium)).toBe(4)
+    expect(oneMedium[3]).toBe(false)
+    expect(oneMedium[4]).toBe(true)
+    expect(oneMedium[7]).toBe(true)
+    expect(oneMedium[8]).toBe(false)
+    // Close (±20°) at bearing 0 covers the 2 central sectors
+    // (centers -7.5° and +7.5°; ±22.5° centers are 22.5° away > 20°).
+    const oneClose = computeSectors([wedge(0, halfAngleForType("close"), 100)])
+    expect(coveredCount(oneClose)).toBe(2)
+    expect(oneClose[4]).toBe(false)
+    expect(oneClose[5]).toBe(true)
+    expect(oneClose[6]).toBe(true)
+    expect(oneClose[7]).toBe(false)
 
     // A wedge BEHIND the axis line contributes nothing and raises a violation.
     const behind = [wedge(135, 45, 100)]

@@ -39,6 +39,7 @@ export class RingView extends BaseScriptComponent {
   private coveredTransform: Transform | null = null
   private coveredMat: Material
   private built: boolean = false
+  private lastSignature: number = -1
   private lastCoveredCount: number = 0
   private flashElapsed: number = 999
   private flashEvent: SceneEvent | null = null
@@ -124,6 +125,21 @@ export class RingView extends BaseScriptComponent {
     if (!this.built) {
       return
     }
+    // CompassRoot recomputes every held-manipulation frame; only an actual
+    // state change may rebuild geometry ("rebuilt only on state change" is a
+    // documented contract, and mesh builds allocate).
+    let signature = 0
+    const bits = Math.min(SECTOR_COUNT, sectors.length)
+    for (let i = 0; i < bits; i++) {
+      if (sectors[i]) {
+        signature |= 1 << i
+      }
+    }
+    if (signature === this.lastSignature) {
+      return
+    }
+    this.lastSignature = signature
+
     const gapSpans: ArcSpan[] = []
     const coveredSpans: ArcSpan[] = []
     const n = Math.min(SECTOR_COUNT, sectors.length)

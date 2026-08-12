@@ -16,6 +16,16 @@ export function raisedSectorFlags(): boolean[] {
   return flags
 }
 
+/** All 12 Sector<i> markers must exist — a missing marker must fail loudly,
+ *  never read as "gap". */
+export function assertAllSectorMarkersPresent(): void {
+  for (let i = 0; i < 12; i++) {
+    if (findSceneObjectByName("Sector" + i) === null) {
+      throw new Error("Sector marker missing: Sector" + i)
+    }
+  }
+}
+
 export function countRaisedSectors(): number {
   const flags = raisedSectorFlags()
   let raised = 0

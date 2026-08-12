@@ -28,6 +28,12 @@ export class CompassIKResetScenario extends Scenario {
     await sleep(300)
     const displaced = wedgeLocalPos("Wedge3")
     expect(displaced).not.toBeNull()
+    // The precondition must be real: Wedge3 actually left its tray slot.
+    const trayDist = Math.sqrt(
+      (displaced!.x - 40) * (displaced!.x - 40) +
+        (displaced!.z - 150) * (displaced!.z - 150)
+    )
+    expect(trayDist).toBeGreaterThan(5)
 
     // IK-reach the Reset button the way a real user would — the trigger
     // converging on it IS the reachability check.

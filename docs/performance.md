@@ -8,19 +8,30 @@ RingView was **built naive on purpose** (commit `0d1ee2f`): 12 separate sector `
 
 ## Measured results (baseline → after)
 
-| Metric | Baseline (12 RMVs) | After (2 RMVs) | Delta |
+> **Correction (2026-08-12).** An earlier version of this table compared raw slice
+> totals between the two captures and claimed a −3–4% render-path improvement.
+> That comparison was invalid: the captures contain different amounts of work
+> (355 vs 340 `ProcessFrame` calls). Normalized per frame, the timing deltas
+> vanish. The error was caught by an independent external review; the corrected
+> numbers below are recomputed from the same trace summaries, which are now
+> committed under `docs/evidence/` so the calculation is reviewable.
+
+Normalized per `ProcessFrame` (355 baseline frames, 340 after frames):
+
+| Metric | Baseline (12 RMVs) | After (batched) | Delta |
 |---|---|---|---|
-| `RenderPass` total (8 s) | 162.2 ms | 156.7 ms | **−3.4%** |
-| `RenderFrame` total | 173.9 ms | 167.7 ms | **−3.6%** |
-| `Visual` slice total | 132.3 ms | 128.6 ms | −2.8% (≈35% fewer Visual slices/frame) |
+| `RenderPass` per frame | 0.4570 ms | 0.4609 ms | +0.9% (noise) |
+| `RenderFrame` per frame | 0.4899 ms | 0.4932 ms | +0.7% (noise) |
+| `Visual` slice time per frame | 0.3727 ms | 0.3782 ms | +1.5% (noise) |
+| **`Visual` calls per frame** | **22** | **11** | **−50%** |
 | Frame p50 / p90 / p99 / max | 2.85 / 3.77 / 6.15 / 12.23 ms | 3.73 / 5.46 / 7.37 / 9.45 ms | see interpretation |
 | Slow frames (over budget) | 0 | 0 | — |
 
 ## Honest interpretation
 
-- The render-path improvement is real but small at this scene's scale — a 12→2 draw-call reduction on tiny meshes moves render slices by single-digit percent.
-- **The apparent frame-time regression is not attributable to the change.** The dominant cost in both captures is the preview's simulated tracking: `Track` measured 1009.7 ms (baseline) vs 1476.0 ms (after) — a +46% swing between two idle captures of the *same scene*, i.e. run-to-run environment noise (`FaceDetectPreprocess` swung +27% the same way). This noise floor is larger than the render delta, so wall-clock frame time cannot resolve the improvement in preview.
-- Every render-side slice the change touches moved in the correct direction; both captures have zero over-budget frames; worst frame actually improved (12.2 → 9.5 ms).
+- **The structural optimization is real; the timing improvement is not resolvable in preview.** Ring rendering went from 12 always-on visuals to ONE in the idle all-gap state (the covered RMV is disabled when empty) and at most two in mixed states — confirmed by total `Visual` calls per frame halving (22 → 11). But per-frame render timing shows no measurable improvement at this scene's scale: these are tiny meshes, and batching them saves scheduling overhead too small to resolve.
+- **Ambient noise dominates all timing comparisons in preview.** `Track` (simulated tracking) measured +52.6% per frame between two idle captures of the *same scene*, and `FaceDetectPreprocess` +32.3% — run-to-run environment noise far larger than any delta the ring change could produce. Frame percentiles differ between captures for the same reason.
+- Both captures have zero over-budget frames; the Lens is nowhere near its frame budget in preview either way.
 - On-device measurement would be the next step for a cleaner signal (tracking runs on dedicated hardware there); out of scope without hardware this week.
 
 ## Verification of parity

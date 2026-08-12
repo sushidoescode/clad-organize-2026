@@ -26,7 +26,6 @@ PluginsUserPreferences/
 
 # OS files
 .DS_Store
-tempAssetGen/
 
 # Added by Lens Studio (LEAF plugin)
 leaf_plugin_settings.json

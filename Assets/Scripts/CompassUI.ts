@@ -36,7 +36,7 @@ export class CompassUI extends BaseScriptComponent {
   @ui.group_start("Settings")
   @input
   @hint("Label shown on the reset button")
-  labelText: string = "RESET MARKS"
+  labelText: string = "RESET CAMERAS"
 
   @input
   @hint("Button width in cm (min 5.5 for a 5-char label)")
@@ -126,10 +126,10 @@ export class CompassUI extends BaseScriptComponent {
       })
       return made!
     }
-    this.heroCount = heroInRow(2.4, SIZE_HERO, "0", this.completeColor)
+    this.heroCount = heroInRow(2.4, SIZE_HERO, "0", IVORY)
     this.heroTotal = heroInRow(3.2, SIZE_HERO - 22, "/ 12", IVORY)
 
-    this.captionText = makeText(1.8, SIZE_CAPTION, "SECTORS", IVORY_DIM)
+    this.captionText = makeText(1.8, SIZE_CAPTION, "ANGLES COVERED", IVORY_DIM)
 
     this.flexChild(col, { w: this.buttonWidth, h: this.buttonHeight }, (btnObj) => {
       const btn = btnObj.createComponent(Button.getTypeName()) as Button
@@ -167,17 +167,21 @@ export class CompassUI extends BaseScriptComponent {
     }
     this.heroCount.text = String(covered)
     this.heroTotal.text = "/ " + total
-    if (complete) {
+    // Count goes phosphor green once anything is covered; neutral at zero.
+    this.heroCount.textFill.color = covered > 0 ? this.completeColor : IVORY
+    // The warning outranks everything — a 180° violation must never be
+    // masked by a green COMPLETE caption.
+    if (lineViolation) {
+      this.heroTotal.textFill.color = IVORY
+      this.captionText.text = "180° LINE CROSSED"
+      this.captionText.textFill.color = this.warnColor
+    } else if (complete) {
       this.heroTotal.textFill.color = this.completeColor
       this.captionText.text = "COMPLETE"
       this.captionText.textFill.color = this.completeColor
-    } else if (lineViolation) {
-      this.heroTotal.textFill.color = IVORY
-      this.captionText.text = "CROSSED THE LINE"
-      this.captionText.textFill.color = this.warnColor
     } else {
       this.heroTotal.textFill.color = IVORY
-      this.captionText.text = "SECTORS"
+      this.captionText.text = "ANGLES COVERED"
       this.captionText.textFill.color = IVORY_DIM
     }
   }

@@ -136,6 +136,7 @@ export class CompassRoot extends BaseScriptComponent {
     }
     this.recompute()
     if (this.saveEvent) {
+      this.saveEvent.enabled = true
       this.saveEvent.reset(0.5)
     }
   }
@@ -174,7 +175,9 @@ export class CompassRoot extends BaseScriptComponent {
     }
 
     const covered = coveredCount(sectors)
-    const complete = isComplete(sectors)
+    // Celebration requires a CLEAN complete: full arc AND no active wedge
+    // behind the axis line (12/12 with a violation is not a finished setup).
+    const complete = isComplete(sectors) && violations.length === 0
     if (this.ui) {
       this.ui.setStatus(covered, SECTOR_COUNT, complete, violations.length > 0)
     }
@@ -201,6 +204,11 @@ export class CompassRoot extends BaseScriptComponent {
   }
 
   public reset(): void {
+    // A save scheduled by a just-released drag must not fire after the store
+    // is cleared and write the tray layout back.
+    if (this.saveEvent) {
+      this.saveEvent.enabled = false
+    }
     for (let i = 0; i < this.wedges.length; i++) {
       this.wedges[i].resetTo(
         this.trayPositions[i],
@@ -215,26 +223,40 @@ export class CompassRoot extends BaseScriptComponent {
     console.log("[CompassRoot] Reset to tray")
   }
 
-  /** Completion celebration: one soft scale pulse on the subject mark. */
+  /**
+   * Completion celebration: one soft scale pulse on the subject mark.
+   * One reusable event and one canonical base scale (captured at start) —
+   * a retrigger mid-pulse must never compound the enlarged scale.
+   */
+  private pulseBaseScale: vec3 | null = null
+  private pulseElapsed: number = 0
+  private pulseEvent: UpdateEvent | null = null
+
   private pulseSubject(): void {
     if (!this.subject) {
       return
     }
     const t = this.subject.getTransform()
-    const base = t.getLocalScale()
-    let elapsed = 0
-    const anim = this.createEvent("UpdateEvent")
-    anim.bind(() => {
-      elapsed += getDeltaTime()
-      const d = 0.6
-      if (elapsed >= d) {
-        t.setLocalScale(base)
-        anim.enabled = false
-        return
-      }
-      const k = 1 + 0.12 * Math.sin((elapsed / d) * Math.PI)
-      t.setLocalScale(new vec3(base.x * k, base.y, base.z * k))
-    })
+    if (this.pulseBaseScale === null) {
+      this.pulseBaseScale = t.getLocalScale()
+    }
+    this.pulseElapsed = 0
+    if (this.pulseEvent === null) {
+      this.pulseEvent = this.createEvent("UpdateEvent") as UpdateEvent
+      this.pulseEvent.bind(() => {
+        const base = this.pulseBaseScale!
+        this.pulseElapsed += getDeltaTime()
+        const d = 0.6
+        if (this.pulseElapsed >= d) {
+          t.setLocalScale(base)
+          this.pulseEvent!.enabled = false
+          return
+        }
+        const k = 1 + 0.12 * Math.sin((this.pulseElapsed / d) * Math.PI)
+        t.setLocalScale(new vec3(base.x * k, base.y, base.z * k))
+      })
+    }
+    this.pulseEvent.enabled = true
   }
 
   private setupAudio(): void {
@@ -274,16 +296,39 @@ export class CompassRoot extends BaseScriptComponent {
     if (!raw || raw.length === 0) {
       return
     }
+    // Validate the ENTIRE payload before mutating anything — a partially
+    // applied restore is worse than none.
+    let saved: SavedWedge[]
     try {
-      const saved = JSON.parse(raw) as SavedWedge[]
-      const n = Math.min(saved.length, this.wedges.length)
-      for (let i = 0; i < n; i++) {
-        this.wedges[i].setState(new vec3(saved[i].x, 0, saved[i].z), saved[i].t)
+      const parsed: unknown = JSON.parse(raw)
+      if (!Array.isArray(parsed) || parsed.length !== this.wedges.length) {
+        console.warn("[CompassRoot] Saved layout shape mismatch — ignored")
+        return
       }
-      console.log("[CompassRoot] Layout restored (" + n + " wedges)")
+      for (let i = 0; i < parsed.length; i++) {
+        const e = parsed[i] as SavedWedge
+        if (
+          e === null ||
+          typeof e !== "object" ||
+          typeof e.x !== "number" ||
+          !isFinite(e.x) ||
+          typeof e.z !== "number" ||
+          !isFinite(e.z) ||
+          TRAY_TYPES.indexOf(e.t) < 0
+        ) {
+          console.warn("[CompassRoot] Invalid saved layout entry — ignored")
+          return
+        }
+      }
+      saved = parsed as SavedWedge[]
     } catch (e) {
       console.warn("[CompassRoot] Corrupt saved layout ignored")
+      return
     }
+    for (let i = 0; i < saved.length; i++) {
+      this.wedges[i].setState(new vec3(saved[i].x, 0, saved[i].z), saved[i].t)
+    }
+    console.log("[CompassRoot] Layout restored (" + saved.length + " wedges)")
   }
 
   private clearSaved(): void {

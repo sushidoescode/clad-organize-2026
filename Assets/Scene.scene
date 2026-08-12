@@ -1126,7 +1126,7 @@
     {}
   ScriptInputs:
     "":
-      labelText: RESET MARKS
+      labelText: RESET CAMERAS
       buttonWidth: !<float> 14.000000
       buttonHeight: 4.500000
       completeColor: !<Vec4> {x: 0.350000, y: 0.950000, z: 0.500000, w: 1.000000}
@@ -1448,13 +1448,13 @@
   Enabled: true
   ScriptAsset: !<reference> c95d5a4f-15cc-4b26-afaf-1cf94f1f6f75
   ScriptInputsDefault:
-    subText: true
+    {}
   ScriptTypesDefault:
     {}
   ScriptInputs:
     "":
-      hintText: DRAG A WEDGE TO COVER EVERY ANGLE
-      subText: PLAN CAMERA SETUPS AROUND YOUR SUBJECT
+      hintText: DRAG WEDGES INTO THE ARC · GREEN = COVERED
+      subText: PLAN CAMERA ANGLES AROUND YOUR SUBJECT
       textSize: !<float> 90.000000
   ScriptTypes:
     "":

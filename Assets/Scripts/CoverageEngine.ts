@@ -16,6 +16,14 @@ export const SECTOR_SIZE_DEG = 15
 /** Wedges farther than this from the subject (cm) are inactive (tray zone). */
 export const ACTIVE_RADIUS_CM = 130
 
+/**
+ * Tolerance for boundary comparisons. Float-quantized transforms can land a
+ * nominal boundary placement (e.g. exactly 130 cm, or a bearing of exactly
+ * ±90°) a few millionths past the threshold; boundaries are inclusive by
+ * design, so they get an epsilon.
+ */
+export const BOUNDARY_EPS = 1e-4
+
 export type ShotType = "wide" | "medium" | "close"
 export const SHOT_TYPES: ShotType[] = ["wide", "medium", "close"]
 
@@ -53,11 +61,11 @@ export function angularDistanceDeg(a: number, b: number): number {
 }
 
 function isActive(w: WedgeInput): boolean {
-  return w.distanceCm <= ACTIVE_RADIUS_CM
+  return w.distanceCm <= ACTIVE_RADIUS_CM + BOUNDARY_EPS
 }
 
 function isFrontSide(w: WedgeInput): boolean {
-  return Math.abs(w.bearingDeg) <= 90
+  return Math.abs(w.bearingDeg) <= 90 + BOUNDARY_EPS
 }
 
 /**
@@ -74,7 +82,7 @@ export function computeSectors(wedges: WedgeInput[]): boolean[] {
       if (!isActive(wedge) || !isFrontSide(wedge)) {
         continue
       }
-      if (angularDistanceDeg(center, wedge.bearingDeg) <= wedge.halfAngleDeg) {
+      if (angularDistanceDeg(center, wedge.bearingDeg) <= wedge.halfAngleDeg + BOUNDARY_EPS) {
         covered = true
         break
       }

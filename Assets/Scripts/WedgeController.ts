@@ -6,8 +6,12 @@ import { buildWedgeMesh } from "./WedgeMeshFactory"
 import { ShotType, SHOT_TYPES, halfAngleForType } from "./CoverageEngine"
 
 const TAP_MAX_TRAVEL_CM = 2.0
-/** Wedges may not leave the rehearsal floor. */
-const MAX_RADIUS_CM = 155
+/**
+ * Wedges may not leave the rehearsal floor. Must exceed the tray radius
+ * (|(±40, 150)| = 155.24 cm) so Reset restores the authored tray coordinates
+ * EXACTLY instead of clamping them.
+ */
+const MAX_RADIUS_CM = 156
 
 // Etched Light Meter: shot type is triple-coded — luminous per-type color,
 // footprint scale, and a floating label. Indexed in SHOT_TYPES order.
@@ -16,7 +20,7 @@ const TYPE_COLORS: vec4[] = [
   new vec4(0.616, 0.545, 1.0, 1.0), // medium — viewfinder violet
   new vec4(1.0, 0.788, 0.302, 1.0), // close  — tungsten gold
 ]
-const TYPE_LABELS: string[] = ["WIDE 24", "MED 50", "CLOSE 85"]
+const TYPE_LABELS: string[] = ["WIDE 24mm", "MED 50mm", "CLOSE 85mm"]
 const LABEL_IVORY = new vec4(0.937, 0.902, 0.839, 0.95)
 
 /**
@@ -38,6 +42,7 @@ export class WedgeController extends BaseScriptComponent {
 
   private manipulating: boolean = false
   private grabStartPos: vec3 | null = null
+  private maxTravelCm: number = 0
   private shotTypeIndex: number = 0
   private rmv: RenderMeshVisual | null = null
   private typeMats: Material[] = []
@@ -111,15 +116,14 @@ export class WedgeController extends BaseScriptComponent {
       manip.onManipulationStart.add(() => {
         this.manipulating = true
         this.grabStartPos = this.getTransform().getLocalPosition()
+        this.maxTravelCm = 0
       })
       manip.onManipulationEnd.add(() => {
         this.manipulating = false
         this.constrain()
-        const end = this.getTransform().getLocalPosition()
-        if (
-          this.grabStartPos !== null &&
-          end.distance(this.grabStartPos) < TAP_MAX_TRAVEL_CM
-        ) {
+        // Tap = the wedge never traveled meaningfully at ANY point during the
+        // grab — an out-and-back or clamped drag is a drag, not a tap.
+        if (this.grabStartPos !== null && this.maxTravelCm < TAP_MAX_TRAVEL_CM) {
           this.cycleShotType()
         }
         this.grabStartPos = null
@@ -130,6 +134,13 @@ export class WedgeController extends BaseScriptComponent {
     this.createEvent("UpdateEvent").bind(() => {
       if (this.manipulating) {
         this.constrain()
+        if (this.grabStartPos !== null) {
+          const p = this.getTransform().getLocalPosition()
+          const travel = p.distance(this.grabStartPos)
+          if (travel > this.maxTravelCm) {
+            this.maxTravelCm = travel
+          }
+        }
         this.onChanged.invoke()
       }
     })
@@ -209,5 +220,9 @@ export class WedgeController extends BaseScriptComponent {
     }
     const yawRad = Math.atan2(p.x, p.z)
     t.setLocalRotation(quat.fromEulerAngles(0, yawRad, 0))
+    // Defensive: SIK two-hand gestures could scale the wedge; footprint scale
+    // is owned by the shot type and nothing else.
+    const s = this.shotType === "wide" ? 1.25 : this.shotType === "medium" ? 1.0 : 0.72
+    t.setLocalScale(new vec3(s, 1, s))
   }
 }

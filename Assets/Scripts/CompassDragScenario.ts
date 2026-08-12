@@ -11,7 +11,13 @@ import {
   coveredCount,
   planarDistanceCm,
 } from "./CoverageEngine"
-import { countRaisedSectors, raisedSectorFlags, stepDrag, wedgeLocalPos } from "./CompassLeafUtils"
+import {
+  assertAllSectorMarkersPresent,
+  countRaisedSectors,
+  raisedSectorFlags,
+  stepDrag,
+  wedgeLocalPos,
+} from "./CompassLeafUtils"
 
 const ORIGIN = new vec3(0, 0, 0)
 const WEDGE_NAMES = ["Wedge1", "Wedge2", "Wedge3"]
@@ -37,22 +43,28 @@ export class CompassDragScenario extends Scenario {
     }
     await interactor.trigger(resetBtn)
     await sleep(400)
+    assertAllSectorMarkersPresent()
     expect(countRaisedSectors()).toBe(0)
 
-    // Real manipulation — landing position deliberately unpredicted.
+    // Real manipulation — landing position deliberately unpredicted, but the
+    // drag must MOVE the wedge (a no-op pass must not count as coverage).
     const wedge1 = findInteractablesByName("Wedge1", undefined, true)[0]
     if (!wedge1) {
       throw new Error("Wedge1 interactable not found")
     }
+    const startPos = wedgeLocalPos("Wedge1")
+    expect(startPos).not.toBeNull()
     await stepDrag(interactor, wedge1, new vec3(0, 0, -1), 6, sleep)
     await sleep(400)
 
-    // Invariant 1 + 2: floor plane and boundary clamp.
+    // Invariant 1 + 2: floor plane and boundary clamp — and real displacement.
     const pos = wedgeLocalPos("Wedge1")
     expect(pos).not.toBeNull()
     expect(pos!.y).toBeCloseTo(0, 1)
     const radius = Math.sqrt(pos!.x * pos!.x + pos!.z * pos!.z)
-    expect(radius).toBeLessThan(155.6)
+    expect(radius).toBeLessThan(156.6)
+    const displacement = pos!.distance(startPos!)
+    expect(displacement).toBeGreaterThan(10)
 
     // Invariant 3: the ring shows exactly what the engine derives from the
     // live wedge state — for every sector.

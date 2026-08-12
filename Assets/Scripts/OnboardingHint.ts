@@ -12,11 +12,11 @@ export class OnboardingHint extends BaseScriptComponent {
   @ui.group_start("Settings")
   @input
   @hint("The single onboarding instruction")
-  hintText: string = "DRAG A WEDGE TO COVER EVERY ANGLE"
+  hintText: string = "DRAG WEDGES INTO THE ARC · GREEN = COVERED"
 
   @input
   @hint("Smaller purpose line under the instruction — the 'why' for a cold viewer")
-  subText: string = "PLAN CAMERA SETUPS AROUND YOUR SUBJECT"
+  subText: string = "PLAN CAMERA ANGLES AROUND YOUR SUBJECT"
 
   @input
   @hint("Text size (world-space em units; ~60 reads at 2 m)")
