@@ -116,4 +116,16 @@ This log is an annotated engineering narrative, maintained continuously during d
   6. Full loop re-verified (completion logged, reset); **LEAF 4/4 green — sixth full pass**; hero stills refreshed with the comprehension layer visible.
   7. One montage screencapture attempt grabbed the wrong desktop space (an unrelated private window) — file deleted immediately, never committed; the LEAF-panel montage still is human-gated (capture while screen-recording with LS frontmost).
 - **Decision:** comprehension gaps closed in-Lens; deliberately NOT built — spatially-positioned tick audio (inaudible in a mono screen recording, the only judged medium) and any further visual passes (diminishing returns vs. regression risk).
+- **Commit:** `1708b43` (pushed to origin).
+
+---
+
+## E7 — Originality sweep (2026-08-11, evening)
+
+- **Intent:** answer the human's direct question — "have you researched if something like this already exists for Snap, Lens Studio, or GitHub?" — with fresh evidence rather than relying on the Phase-B/C white-space scan, and convert the findings into defensible submission language.
+- **Prompt (human, core):** *"Do you know or have you researched if something like this already exists for SNAP, Lens Studio, or Github?"*
+- **Agents/skills:** 5-agent research workflow — four parallel searchers with distinct modalities (Snap ecosystem incl. official samples/Newsroom/Lens Fest; Lenslist + hackathon history incl. all 14 Spectacles Community Challenge winner posts and Snap's 343-project Hackathon Showcase; GitHub; adjacent products on other platforms) + one synthesis judge. ~106 queries, real URLs required, fabrication forbidden.
+- **Observed:** no preemption found in any modality. Nearest neighbors identified and audited: KinoPilot (Spectacles script supervisor — its own roadmap lists spatial scene blocking as *unbuilt*), FrAImed (AI single-shot framing coach on Specs), Shot Designer (manual 2D blocking diagrams), nilstaylor/Shot-Planner (2D web app with FOV wedges + 180°-line warnings — nearest feature neighbor, zero AR), film-space (phone-AR blocking sandbox), Pool Assist (the platform's proven surface-anchored angle-instrument pattern, in billiards). Verified negatives: ~120 Spectacles Community Challenge winners, 34 official samples, 343 showcase projects — zero coverage-geometry filmmaking lenses.
+- **Verification:** every finding carries a URL; caveats recorded honestly (Lens Explorer not fully web-indexed; current-hackathon entries not public; one FrameForge feature unverifiable).
+- **Decision:** claim scoped precisely — "the first live shot-coverage instrument on AR glasses" (high confidence), never "first AR filmmaking tool on Spectacles" (false). Full report committed as `docs/originality-check.md`; differentiation paragraph added to the submission description.
 - **Commit:** (recorded on commit of this entry).
