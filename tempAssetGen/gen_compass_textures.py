@@ -11,7 +11,11 @@ All line-work is white/ivory; runtime baseColor tints where needed.
 """
 import math, os
 
-OUT = "/Users/sushantsrikrish/CLAD-Hackathon/Organize-2026/Assets/Textures/src"
+# Output dir: repo-relative by default (this script lives in <repo>/tempAssetGen/),
+# overridable with argv[1].
+import sys
+_REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(_REPO, "Assets", "Textures", "src")
 os.makedirs(OUT, exist_ok=True)
 IVORY = "#EFE6D6"
 

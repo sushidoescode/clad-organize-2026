@@ -23,11 +23,11 @@ MovePreviewCamera: orbit target (0, -125, -260), yaw 25 → yaw -50 (slow)
 |---|---|---|
 | 0–5 s | Base view: the engraved light-meter dial (ticks + degree numerals), beacon column, hatched red arc, three colored wedges with labels, hint visible | "I shoot documentaries. Standing in the room before an interview, the question is always: **which angles am I still missing?**" |
 | 5–12 s | Drag W1 (cyan WIDE) to **−45°** on the arc. Six sectors flip to backlit green + flash + ticks; hint fades | "This is Shot Coverage Compass, on SPECS. Every camera setup I place covers part of a ring around my subject…" |
-| 12–19 s | Drag W2 (violet MED) to **+30°**. Four more sectors flip → **10 / 12** | "…derived live from the real geometry of the room. Green means I have that angle." |
+| 12–19 s | Drag W2 (violet MED) to **+30°**. Four more sectors flip → **10 / 12** | "…derived live from real angular geometry. Green means I have that angle." |
 | 19–26 s | Slow orbit while **tapping W2 twice** (MED 50mm → CLOSE 85mm → WIDE 24mm; color + label + footprint all cycle; count goes 10 → 11) | "Tap a wedge to change the shot — wide, medium, close. Coverage math follows." |
 | 26–33 s | Drag W2 (now WIDE) across the axis line behind the subject — line flares amber, warning buzz, panel caption "180° LINE CROSSED" | "And if I drift behind my subject — that's the 180° rule breaking, before it costs me the edit." |
 | 33–40 s | Drag W2 back to **+45°**: the last gap closes — full green arc, chime, beacon pulse, panel "12 / 12 · COMPLETE" in green (first and only completion of the take) | "When the arc closes, my coverage is complete. It saves my setup between sessions." |
-| 40–50 s | Fast cuts: LEAF panel 4/4 green → performance.md corrected table → prompt-log scroll → one VirtualScene/CLAD iteration | "Built entirely with CLAD: agent-authored scene and scripts, verified in preview at every step, a four-scenario LEAF suite — which caught a real bug — and a measured visuals-per-frame reduction. The tool I needed, built in a week I didn't have." |
+| 40–50 s | Fast cuts: LEAF panel 4/4 green → performance.md corrected table → prompt-log scroll → one VirtualScene/CLAD iteration | "Built with CLAD: agent-authored scene and scripts, verified in preview at every step, a four-scenario LEAF suite — which caught a real bug — and a measured visuals-per-frame reduction. The tool I needed, built in a week I didn't have." |
 | 50–53 s | Base view, complete green arc | (beat, no VO) Title card text overlay in edit: "Shot Coverage Compass — built with CLAD for SPECS." |
 
 ## Production notes

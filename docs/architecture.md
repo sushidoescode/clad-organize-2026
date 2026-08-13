@@ -26,7 +26,7 @@ LeafIndex             LEAF scenario registry (4 scenarios)
 - **`RingView.ts`** — pure view. All gap sectors in ONE mesh, all covered sectors in ONE mesh (≤2 draw calls; 1 in the all-gap state). A 12-bit signature guard rebuilds geometry only on actual state change. Covered mesh rides an object transform at +2 cm; the newly-covered flash animates brightness and a small physical rise on that transform. Twelve empty `Sector<i>` markers carry per-sector state on local y (0 gap / 2 covered) — the LEAF observable, independent of batching. State is never color-alone.
 - **`CompassRoot.ts`** — the only stateful coordinator. On wedge change: engine derive → `RingView.apply` → axis-line material swap → panel status → edge-triggered SFX/logs → debounced persistence (0.5 s; canceled by Reset before the store is cleared). Completion celebration requires full arc AND zero violations. Restore validates the entire saved payload before mutating anything. Subject pulse uses one canonical base scale + one reusable event.
 - **`CompassUI.ts`** — UIKit panel: title, two-tone hero count (flex row: green count / ivory total), caption with warning precedence (`180° LINE CROSSED` outranks `COMPLETE`), RESET CAMERAS button. Content restyle only — stock BackPlate/Button structure.
-- **`WedgeMeshFactory.ts`** — MeshBuilder geometry: wedge prism, multi-span arc mesh, disc (planar UVs), capless tube. All meshes code-authored.
+- **`WedgeMeshFactory.ts`** — MeshBuilder geometry: wedge prism, multi-span arc mesh, disc (planar UVs), capless tube. All compass meshes are code-authored (package/template meshes exist elsewhere in the scene).
 - **`FloorDisc.ts` / `BeaconColumn.ts` / `OnboardingHint.ts`** — presentation components.
 - **Textures** — all original, generated SVG→PNG (`Assets/Textures/src/*.svg`, generator in `tempAssetGen/`). Authoring contract: the floor texture reaches the eye vertically flipped, so floor glyphs are authored `scale(1,-1)`.
 
@@ -48,4 +48,4 @@ Recompute runs on every held-manipulation frame; geometry rebuild is guarded by 
 - **Perf discipline**: static content only; the one measured claim is structural (ring visuals 12 → ≤2, total Visual calls/frame 22 → 11) — see `docs/performance.md` for the corrected analysis.
 
 ## Verification loop
-Every meaningful change: RecompileTypeScriptTool → RunAndCollectLogsTool (refresh) → capture → judge pixels → drive interactions (PreviewInteractTool) → runtime queries → full LEAF suite as the regression gate. Evidence index: `docs/evidence/`.
+The working loop for changes: RecompileTypeScriptTool → RunAndCollectLogsTool (refresh) → capture → judge pixels → drive interactions (PreviewInteractTool) → runtime queries → LEAF suite as the regression gate. One instance of the loop is fully reproduced with its tool outputs in `docs/evidence/clad-loop-example.md`; the prompt log records the loop's use per iteration (curated records, not raw session exports).

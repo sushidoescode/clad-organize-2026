@@ -2,11 +2,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const ENGINE = '/Users/sushantsrikrish/.claude-account-b/plugins/cache/ls-extensions/ls-clad/1.0.0/skills/build-sfx/tools';
+// Requires the ls-clad plugin's build-sfx synthesis engine (not bundled here);
+// point BUILD_SFX_ENGINE at <ls-clad>/skills/build-sfx/tools.
+const ENGINE = process.env.BUILD_SFX_ENGINE ||
+  '/Users/sushantsrikrish/.claude-account-b/plugins/cache/ls-extensions/ls-clad/1.0.0/skills/build-sfx/tools';
 const audio = require(ENGINE);
 const p = audio.sfx_presets;
 
-const PROJECT_ASSETS_SFX = '/Users/sushantsrikrish/CLAD-Hackathon/Organize-2026/Assets/GeneratedSFX';
+const PROJECT_ASSETS_SFX = process.env.SFX_OUT || path.join(__dirname, '..', 'Assets', 'GeneratedSFX');
 fs.mkdirSync(PROJECT_ASSETS_SFX, { recursive: true });
 
 function writeWav(buf, name) {

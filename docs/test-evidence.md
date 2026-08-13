@@ -7,9 +7,10 @@
 | `compass-engine-math` | Coverage engine: 12-sector derivation, wide/medium/close half-angle mapping asserted through `halfAngleForType` (6/4/2-sector footprints), completion, behind-line contributes nothing + raises violation, tray-distance inactivity, angular wrap | ✅ passing |
 | `compass-drag-coverage` | After REAL simulated SIK manipulation with asserted non-trivial displacement (>10 cm): floor-plane invariant (y=0), rehearsal-floor clamp (≤156 cm), all 12 sector markers present, and per-sector **view == engine** consistency for the actual landing state | ✅ passing |
 | `compass-persistence` | Wedge movement triggers debounced save; stored JSON mirrors live positions + shot types; Reset clears store and arc. (Startup **restore** is verified interactively across a Lens reset — see the v2 round-trip note below — not by this scenario.) | ✅ passing |
-| `compass-ik-reset` | An IK-simulated user (full arm + head) physically reaches and presses Reset; tray restore verified per-wedge | ✅ passing |
+| `compass-reset` | Real simulated manipulation displaces a wedge (asserted >5 cm off tray), Reset pressed via the standard interactor, EXACT tray restore asserted per-wedge — deterministic | ✅ passing (3× consecutively) |
+| `compass-ik-reach` *(probe, not core gate)* | An IK-simulated user (full arm + head) physically reaches and presses Reset — UI-reachability demonstration; environment-sensitive (see E9) | ✅ passing when the sim rig converges |
 
-Suite ran green four times: after authoring (commit `a5e1859`), against the batched-ring perf refactor, against the Stage-3 polish (`33957ad`), and in full against the E4 visual overhaul (Etched Light Meter — new floor/beacon meshes, retextured ring, per-type wedge materials). One real defect found by the suite and fixed: SIK far-field manipulation amplified drags ~31×, flinging wedges off the floor → rehearsal-floor boundary clamp in `WedgeController.constrain()` (now itself a tested invariant).
+The full suite has run green seven times to date (after authoring at `a5e1859`, then as the regression gate for the perf refactor, Stage-3 polish, E4 visual overhaul, E5 gap closure, E6 comprehension pass, and E8 review corrections). An external audit at `c9ca8cf` then found the IK scenario intermittent (~4/6 under repetition). Root cause (E9): the preview's IK rig is a physical simulation that can miss or wedge entirely under back-to-back runs, and the **LEAF runner fails any scenario containing a failed interaction regardless of assertions** — so no in-scenario retry can save a wedged run. Fix: reset correctness was split into the deterministic `compass-reset` (standard interactor, strict exact-tray assertions; verified 3× consecutively on the pattern that wedged the old scenario), and the IK reach became the clearly-labeled `compass-ik-reach` probe outside the core gate. One real defect found by the suite and fixed: SIK far-field manipulation amplified drags ~31×, flinging wedges off the floor → rehearsal-floor boundary clamp in `WedgeController.constrain()` (now itself a tested invariant).
 
 ## Interactive preview verification (driven via simulated SIK input, captures + logs)
 
@@ -45,7 +46,7 @@ Every element of the art-direction pass was verified in preview with captures + 
 
 ## E6 — Cold-judge comprehension + interaction polish verification
 
-- **Identity/purpose layer** — opening-state capture shows, simultaneously: panel title SHOT COVERAGE COMPASS, two-line hint (action + "PLAN CAMERA SETUPS AROUND YOUR SUBJECT"), per-wedge shot labels, SUBJECT caption at the beacon — a cold viewer gets what/why/how in one frame.
+- **Identity/purpose layer** — opening-state capture shows, simultaneously: panel title SHOT COVERAGE COMPASS, two-line hint (action + purpose), per-wedge shot labels, SUBJECT caption at the beacon — designed so a cold viewer gets what/why/how in one frame (the human cold-read gate with a non-filmmaker runs before the final video edit).
 - **Hover glow** — held-pinch capture shows the cyan wedge paled toward white while hovered; released without a tap-cycle (no `[Wedge] →` log; travel exceeded the 2 cm tap threshold).
 - **Raise-pop** — after a coverage flip: `RingCovered` local y = 2.000 exactly (tween settled at RAISE_CM); covered marker y=2 / uncovered y=0 (LEAF observable unchanged — animation lives on the render object only).
 - **Full loop** — fresh run → completion (`[Coverage] COMPLETE`) → reset; zero runtime errors; **LEAF 4/4 green (sixth full pass)**; hero stills refreshed.
@@ -54,7 +55,7 @@ Every element of the art-direction pass was verified in preview with captures + 
 
 - **Completion gating** — driven adversarially: full arc covered WHILE a wedge sat behind the axis line → no `COMPLETE` log, panel caption `180° LINE CROSSED` (amber) with green `12 / 12` hero; violation cleared → `[Coverage] COMPLETE` fired exactly on the clean rising edge (log timestamps 03:17:50 / 03:18:45, see `docs/evidence/clad-loop-example.md`).
 - **Exact tray restore** — post-Reset runtime query: (−40, 0, 150) / (0, 0, 150) / (40, 0, 150) — the 156 cm clamp fix removed the former ±0.06–0.24 cm clamp drift.
-- **Rebuild guard, pulse reuse, validated restore, save-cancel, max-travel tap** — compile clean, zero runtime errors across the full pass; behavior covered by the interaction pass + LEAF.
+- **Rebuild guard, pulse reuse, validated restore, save-cancel, max-travel tap** — compile clean, zero runtime errors across the full pass; these specific paths were verified interactively (no dedicated LEAF assertions), with the existing suite guarding the surrounding behavior against regressions.
 - **LEAF suite green on strengthened assertions (seventh full pass)** — mapping (6/4/2-sector footprints via `halfAngleForType`), >10 cm displacement, 12-marker presence, real IK-reset precondition, 156 cm bound. Final-run record: `docs/evidence/leaf-final-run.md`.
 
 ## Perf evidence

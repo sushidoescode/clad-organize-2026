@@ -1,8 +1,11 @@
 # Evidence Index — claim → artifact
 
 Compact bundle so a public reviewer can connect the claims in `docs/` to tool
-output without access to the development session. All artifacts here were
-produced by the tools named, at the times stated; nothing is reconstructed.
+output without access to the development session. Provenance, stated precisely:
+the JSON summaries are tool outputs verbatim; the Markdown records are curated
+transcriptions of tool outputs from the development session (quoted results and
+timestamps are real; the surrounding prose is authored). Raw session transcripts,
+LEAF reports, and `.pftrace` binaries are regenerable but not committed.
 
 | Claim | Artifact | Where |
 |---|---|---|
@@ -11,7 +14,7 @@ produced by the tools named, at the times stated; nothing is reconstructed.
 | The CLAD loop (mutate → run → interact → query → judge) was real and evidence-driven | One representative loop, reproduced with its actual tool outputs | `clad-loop-example.md` |
 | Visual states (opening / completion) | Hero captures from the SPECS 27 interactive preview | `../media/hero_initial_red_arc.png`, `../media/hero_coverage_complete.png` |
 | Concept white-space verified before claiming novelty | Four-modality search report with URLs and caveats | `../originality-check.md` |
-| All art/SFX original and regenerable | Committed generators | `../../tempAssetGen/gen_compass_textures.py`, `../../tempAssetGen/gen_sfx_compass.js`, SVG sources in `../../Assets/Textures/src/` |
+| All art/SFX original | Committed generators (textures regenerate repo-relative with Chrome/ImageMagick; the SFX generator additionally requires the ls-clad plugin's `build-sfx` engine via `BUILD_SFX_ENGINE`) | `../../tempAssetGen/gen_compass_textures.py`, `../../tempAssetGen/gen_sfx_compass.js`, SVG sources in `../../Assets/Textures/src/` |
 
 Notes: `docs/prompt-log.md` is a curated annotated development log (intent →
 prompt → agents/skills → observed result → verification → decision → commit for
