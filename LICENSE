@@ -1,0 +1,33 @@
+Shot Coverage Compass — License
+
+Original code and original assets in this repository (all files under
+Assets/Scripts/ authored for this project, Assets/Textures/, Assets/GeneratedSFX/,
+tempAssetGen/, docs/) are released under the MIT License:
+
+Copyright (c) 2026 the Shot Coverage Compass author
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions: the above copyright notice and this
+permission notice shall be included in all copies or substantial portions of
+the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+NOT covered by the above license:
+- Snap's official packages and template content bundled in Packages/ and the
+  base project scaffolding (Spectacles Interaction Kit, SPECS UI Kit, LEAF,
+  Bitmoji, template assets such as Assets/Materials/Base.png): these remain
+  under Snap's own license terms.
+- The demo video's music ("Lofi Relax" by kulakovka, Pixabay Content License)
+  and narration (ElevenLabs TTS) are licensed per docs/submission-description.md
+  and are not part of this repository.

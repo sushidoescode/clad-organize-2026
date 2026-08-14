@@ -1,4 +1,4 @@
-# Submission Description (draft — Lenslist form)
+# Submission Description (Lenslist form)
 
 **Lens name:** Shot Coverage Compass
 
@@ -14,6 +14,6 @@
 
 **What's next.** Coverage is the first layer of a set-organizing instrument. The same subject-centered dial extends naturally to a lighting layer — key/fill/back markers checked against every camera axis, flaring backlit or silhouetted setups the moment a wedge moves — and a sound layer (boom reach, mic shadows). This week was deliberately scoped to the one layer that is pure, verifiable geometry.
 
-**Credits.** Demo-video music: "Lofi Relax" by kulakovka (Pixabay Content License — free for commercial use, no attribution required). Narration: ElevenLabs TTS (paid commercial plan, stock voice). All other audio (generated SFX) and all visual assets are original and generated in-project.
+**Credits.** Demo-video music: "Lofi Relax" by kulakovka (Pixabay Content License — free for commercial use, no attribution required). Narration: ElevenLabs TTS (paid commercial plan, stock voice). All four SFX and all custom visible artwork (compass dial, ring strips, wedge etch, beacon, reticle, proof cards) are original and generated in-project; the project builds on Snap's official SPECS base template and official packages (SIK, UIKit, LEAF), which include their own standard assets under their own terms.
 
 **Artifacts.** Public repo (this project, reproducible reviewer instructions in README) · demo video (<60 s) · CLAD prompt log (`docs/prompt-log.md`) · this description.

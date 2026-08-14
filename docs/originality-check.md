@@ -46,7 +46,7 @@ Four independent search modalities (~106 queries total; not exhaustive — see t
 
 ## Verdict
 
-**Not preempted on AR glasses; novelty lies in the synthesis on that platform.** Across all four modalities, no product on any AR glasses/headset was found that renders a floor-plane live coverage instrument for cinematic shot planning. The original broader claim ("no product anywhere computes coverage gaps / 180° warnings") was **refuted post-audit** — browser shot designers do this on desktop screens (see addendum: Frameline 3D). The precise, defensible claim is: **the first live shot-coverage instrument on AR glasses** — spatial, hand-tracked, at 1:1 scale on the floor plane in front of the user. Confidence: high for the glasses-scoped claim; do not make platform-unqualified claims.
+**Not preempted on AR glasses; novelty lies in the synthesis on that platform.** In the corpora searched (four modalities, ~106 queries), no product on any AR glasses/headset was found that renders a floor-plane live coverage instrument for cinematic shot planning; the search was broad, not exhaustive. The original broader claim ("no product anywhere computes coverage gaps / 180° warnings") was **refuted post-audit** — browser shot designers do this on desktop screens (see addendum: Frameline 3D). The precise, defensible claim is: **the first live shot-coverage instrument on AR glasses** — spatial, hand-tracked, at 1:1 scale on the floor plane in front of the user. Confidence: high for the glasses-scoped claim; do not make platform-unqualified claims.
 
 **Known caveats (state these honestly):**
 1. Snap's on-device Lens Explorer catalog is not fully web-indexed; an unpublicized lens could exist below the search surface.

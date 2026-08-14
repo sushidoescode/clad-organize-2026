@@ -15,8 +15,6 @@ MovePreviewCamera: orbit target (0, -125, -260), yaw 25 → yaw -50 (slow)
 
 ## Beat sheet
 
-| Time | Screen | Narration (builder voice, first person) |
-|---|---|---|
 **Choreography is deterministic and engine-verified — follow it exactly** (wedge types: W1 = cyan WIDE ±45°, W2 = violet MED ±30°, W3 = gold CLOSE ±20°; a wide at −45° + a wide at +45° tile all 12 sectors):
 
 | Time | Screen | Narration (builder voice, first person) |

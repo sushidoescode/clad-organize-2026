@@ -17,7 +17,7 @@ CoverageCompass  (0, −125, −260)
 ├── Line180           box mesh, ivory at rest / amber on violation (material swap)
 ├── CompassUI         CompassUI.ts — UIKit BackPlate panel (billboarded)
 └── OnboardingHint    OnboardingHint.ts — two-line billboarded hint, fades on first drag
-LeafIndex             LEAF scenario registry (4 scenarios)
+LeafIndex             LEAF scenario registry (4 core scenarios + IK reachability probe)
 ```
 
 ## Modules (one source of truth)

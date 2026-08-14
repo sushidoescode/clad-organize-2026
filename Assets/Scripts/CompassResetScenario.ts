@@ -3,6 +3,8 @@ import { expect } from "Leaf.lspkg/Utils/common/Expect"
 import { sleep } from "Leaf.lspkg/Utils/common/Utils"
 import { DefaultLeafInteractor } from "Leaf.lspkg/Interactors/interactor/DefaultLeafInteractor"
 import { findInteractablesByName } from "Leaf.lspkg/Interactors/InteractableUtils"
+import { findSceneObjectByName } from "Leaf.lspkg/Utils/common/Utils"
+import { WedgeController } from "./WedgeController"
 import { countRaisedSectors, stepDrag, wedgeLocalPos } from "./CompassLeafUtils"
 
 /**
@@ -41,17 +43,27 @@ export class CompassResetScenario extends Scenario {
     await interactor.trigger(resetBtn)
     await sleep(700)
 
-    // Reset restored all three wedges to their tray slots and emptied the arc.
+    // Reset restored all three wedges to their tray slots (positions to within
+    // 0.05 cm, all axes) with tray types re-applied, and emptied the arc.
     expect(countRaisedSectors()).toBe(0)
     const w1 = wedgeLocalPos("Wedge1")
     const w2 = wedgeLocalPos("Wedge2")
     const w3 = wedgeLocalPos("Wedge3")
-    expect(w1!.z).toBeCloseTo(150, 0)
-    expect(w2!.z).toBeCloseTo(150, 0)
-    expect(w3!.z).toBeCloseTo(150, 0)
-    expect(w1!.x).toBeCloseTo(-40, 0)
-    expect(w3!.x).toBeCloseTo(40, 0)
+    expect(w1!.x).toBeCloseTo(-40, 1)
+    expect(w1!.z).toBeCloseTo(150, 1)
+    expect(w2!.x).toBeCloseTo(0, 1)
+    expect(w2!.z).toBeCloseTo(150, 1)
+    expect(w3!.x).toBeCloseTo(40, 1)
+    expect(w3!.z).toBeCloseTo(150, 1)
+    const types: string[] = []
+    const expected = ["wide", "medium", "close"]
+    for (let i = 0; i < 3; i++) {
+      const obj = findSceneObjectByName("Wedge" + (i + 1))
+      const wc = obj.getComponent(WedgeController.getTypeName()) as WedgeController
+      types.push(wc.shotType)
+      expect(wc.shotType).toBe(expected[i])
+    }
 
-    print("[LEAF] CompassResetScenario passed (exact tray restore)")
+    print("[LEAF] CompassResetScenario passed (exact tray restore: positions + types)")
   }
 }
