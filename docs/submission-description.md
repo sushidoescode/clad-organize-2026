@@ -16,4 +16,4 @@
 
 **Credits.** Demo-video music: "Lofi Relax" by kulakovka (Pixabay Content License — free for commercial use, no attribution required). Narration: ElevenLabs TTS (paid commercial plan, stock voice). All four SFX and all custom visible artwork (compass dial, ring strips, wedge etch, beacon, reticle, proof cards) are original and generated in-project; the project builds on Snap's official SPECS base template and official packages (SIK, UIKit, LEAF), which include their own standard assets under their own terms.
 
-**Artifacts.** Public repo (this project, reproducible reviewer instructions in README) · demo video (<60 s) · CLAD prompt log (`docs/prompt-log.md`) · this description.
+**Artifacts.** Public repo: https://github.com/sushidoescode/clad-organize-2026 (reproducible reviewer instructions in README) · Demo video (56 s): https://drive.google.com/file/d/1ICsolidRYJzCKih2aw7EHB3O1sQCULJ8/view?usp=sharing · CLAD prompt log: `docs/prompt-log.md` in the repo · this description.

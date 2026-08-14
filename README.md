@@ -2,6 +2,8 @@
 
 A spatial organizer for documentary filmmakers, built for **SPECS** with **Lens Studio + CLAD** for the CLAD Summer Hackathon, Week 1 — theme **Organize**.
 
+**▶ [Watch the 56-second demo video](https://drive.google.com/file/d/1ICsolidRYJzCKih2aw7EHB3O1sQCULJ8/view?usp=sharing)** — the full loop: drag → live coverage → 180° warning → completion, plus the CLAD proof cards.
+
 Standing in the room before a shoot, the question is always the same: *which angles am I still missing?* Shot Coverage Compass answers it in place. Drop camera wedges around your subject on a rehearsal floor; a coverage ring derives, live, which sectors of the 180° working arc your setups cover — gaps red, covered green, complete when the arc closes. Drag a wedge across the axis line and the line flares amber: you've crossed the 180° rule. Tap a wedge to cycle its shot type (wide / medium / close — footprint and coverage angle change together). Your layout persists between sessions. Reset returns everything to the tray.
 
 The organizing value is spatial by construction: the tool reasons about real angular geometry around a physical subject position — remove the space and there is nothing left to organize.

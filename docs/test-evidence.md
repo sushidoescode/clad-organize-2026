@@ -58,6 +58,18 @@ Every element of the art-direction pass was verified in preview with captures + 
 - **Rebuild guard, pulse reuse, validated restore, save-cancel, max-travel tap** — compile clean, zero runtime errors across the full pass; these specific paths were verified interactively (no dedicated LEAF assertions), with the existing suite guarding the surrounding behavior against regressions.
 - **LEAF suite green on strengthened assertions (seventh full pass)** — mapping (6/4/2-sector footprints via `halfAngleForType`), >10 cm displacement, 12-marker presence, real IK-reset precondition, 156 cm bound. Final-run record: `docs/evidence/leaf-final-run.md`.
 
+## Submission freeze verification (2026-08-14)
+
+Scope-freeze gate at the submission commit: **three consecutive clean runs**, each starting from a full Lens reset, each running the complete deterministic core gate — 12/12 scenario passes, zero Lens runtime errors across all three:
+
+| Run | compass-engine-math | compass-drag-coverage | compass-persistence | compass-reset |
+|---|---|---|---|---|
+| 1 | ✅ | ✅ | ✅ | ✅ |
+| 2 | ✅ | ✅ | ✅ | ✅ |
+| 3 | ✅ | ✅ | ✅ | ✅ |
+
+`compass-reset` ran green in all three with the strengthened assertions added the same day (all-axis tray positions to 0.05 cm + tray shot-type restoration). Pre-publication compliance sweep at the same commit: no secrets, tokens, key files, MCP config, or private filesystem paths in any tracked file; working tree clean.
+
 ## Perf evidence
 
 See `docs/performance.md` — deliberate naive-first ring, measured Perfetto before/after. **Corrected conclusion (external review, 2026-08-12):** the improvement is structural — ring visuals 12 → ≤2 (1 in the all-gap state), total `Visual` calls/frame 22 → 11 — with **no resolvable per-frame timing improvement** once captures are normalized per `ProcessFrame`; preview tracking noise dominates all timing comparisons. Sanitized trace summaries are committed under `docs/evidence/`. Visual + behavioral parity verified.
