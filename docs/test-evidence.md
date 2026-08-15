@@ -70,6 +70,12 @@ Scope-freeze gate at the submission commit: **three consecutive clean runs**, ea
 
 `compass-reset` ran green in all three with the strengthened assertions added the same day (all-axis tray positions to 0.05 cm + tray shot-type restoration). Pre-publication compliance sweep at the same commit: no secrets, tokens, key files, MCP config, or private filesystem paths in any tracked file; working tree clean.
 
+## Cold-read gate (risk R3) — human verification, 2026-08-15
+
+The one check no agent can run: a **non-filmmaker** was shown only the **first 20 seconds** of the final cut, with no explanation and no prior context. Unprompted response: *"So this is an app that helps determine the best angles to get to capture for a film?"*
+
+The viewer identified the product's purpose from the opening beats alone — before the narration reaches any explanation of coverage, sectors, or the 180° rule. The comprehension layer (panel title, two-line hint, wedge shot labels, SUBJECT beacon caption) carries the read on its own. R3 closed; the planned caption fallback was not needed.
+
 ## Perf evidence
 
 See `docs/performance.md` — deliberate naive-first ring, measured Perfetto before/after. **Corrected conclusion (external review, 2026-08-12):** the improvement is structural — ring visuals 12 → ≤2 (1 in the all-gap state), total `Visual` calls/frame 22 → 11 — with **no resolvable per-frame timing improvement** once captures are normalized per `ProcessFrame`; preview tracking noise dominates all timing comparisons. Sanitized trace summaries are committed under `docs/evidence/`. Visual + behavioral parity verified.
