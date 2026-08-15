@@ -182,3 +182,32 @@ This log is an annotated engineering narrative, maintained continuously during d
 - **Provenance/credits:** music "Lofi Relax" by kulakovka (Pixabay, Pixabay Content License — free commercial use, no attribution required); narration ElevenLabs paid plan; all four SFX and all custom visible artwork (dial, ring strips, wedge etch, beacon, reticle, cards) generated in-project. The project builds on the official SPECS base template and official packages (SIK, UIKit, LEAF), which carry their own standard assets under their own terms. Raw footage and drafts live outside the repo (video submitted by file-sharing link per the official requirements).
 - **Decision:** draft 7 (lofi) approved by the human as final pending the cold-read gate.
 - **Commit:** `e11b2da`.
+
+---
+
+## Retro — what the record shows (2026-08-15, post-submission)
+
+Submitted to CLAD Summer Hackathon Week 1 (Organize) on 2026-08-15. Six days from a blank Lens Studio template to a public, tagged, externally-audited submission: **24 commits · 11 logged iterations (E0–E10) · 16 TypeScript modules · 5 LEAF scenarios · 6 original textures · 4 generated SFX · one 56-second demo video (7 drafts)**.
+
+### What the closed loop actually caught
+
+The preview-verification loop (compile → run → drive simulated hands → query runtime → judge pixels) proved reliable at catching **behavioral** defects, and the record shows it working rather than being asserted: content invisible at the wrong FOV; unit-mesh presets rendering as centimetre specks; a UIKit layout call that throws pre-init; the LEAF suite discovering that far-field manipulation amplifies drags ~31× and flings wedges off the floor (fixed as a clamped, tested invariant); a floor texture that reaches the eye vertically flipped (glyph authoring contract); completion celebrating while a 180°-rule violation was active; a boundary clamp fighting the tray radius so Reset never restored exactly.
+
+### What the loop could NOT catch — the honest lesson
+
+Three independent external reviews found a different **class** of defect, and every one of them was a claim, not a behavior:
+
+1. A **false performance conclusion** — comparing raw slice totals across captures containing unequal work. The optimization was real and structural (ring visuals 12 → ≤2, 22 → 11 visuals/frame); the "−3–4% faster" claim was not. Corrected with a visible notice and committed trace summaries.
+2. A **demo choreography that could not reach its own ending** — the scripted taps left a wedge pair mathematically unable to tile 12 sectors.
+3. An **intermittent regression gate** (~4/6) whose root cause turned out to be the runner failing any scenario containing a failed simulated interaction, regardless of assertions — no in-scenario retry could fix it. Resolved by splitting deterministic reset correctness from the environment-sensitive IK reachability probe.
+4. **Overclaimed provenance and scope** — "all visual assets original", "no product anywhere", "every change verified", a private filesystem path in a committed generator.
+
+The generalizable finding: a closed verification loop is excellent at proving *what the software does* and structurally blind to *what its author says about it*. Self-authored evidence needs an adversarial outside reader. Every audit finding was verified locally before adoption (including live-fetching the competitor that refuted our broadest originality claim) — and adopting them, visibly and with dated corrections, made the submission stronger than the unchallenged version would have been.
+
+### Known limitations, stated plainly
+
+Never run on SPECS hardware — all verification is preview + simulated hands + an IK reachability probe. Coverage half-angles (45°/30°/20°) are planning conventions, not a lens/sensor simulation. No spatial anchoring: persistence saves the virtual arrangement, not physical-room coordinates. Perfetto captures predate the visual overhaul and were not re-profiled. The prompt log is a curated annotated record, not a raw session export.
+
+### If there were a week two
+
+Commit raw evidence exports from day one (cheaper than reconstructing provenance under deadline); storyboard the demo against engine truth before recording; get ten minutes on real hardware early, since it is the single largest unretired risk; and schedule the adversarial claim review *before* the final polish pass, not after.
