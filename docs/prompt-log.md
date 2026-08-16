@@ -195,14 +195,16 @@ The preview-verification loop (compile → run → drive simulated hands → que
 
 ### What the loop could NOT catch — the honest lesson
 
-Three independent external reviews found a different **class** of defect, and every one of them was a claim, not a behavior:
+Three independent external reviews found defects the loop had missed. The *headline* ones were claims rather than behaviors:
 
 1. A **false performance conclusion** — comparing raw slice totals across captures containing unequal work. The optimization was real and structural (ring visuals 12 → ≤2, 22 → 11 visuals/frame); the "−3–4% faster" claim was not. Corrected with a visible notice and committed trace summaries.
 2. A **demo choreography that could not reach its own ending** — the scripted taps left a wedge pair mathematically unable to tile 12 sectors.
 3. An **intermittent regression gate** (~4/6) whose root cause turned out to be the runner failing any scenario containing a failed simulated interaction, regardless of assertions — no in-scenario retry could fix it. Resolved by splitting deterministic reset correctness from the environment-sensitive IK reachability probe.
 4. **Overclaimed provenance and scope** — "all visual assets original", "no product anywhere", "every change verified", a private filesystem path in a committed generator.
 
-The generalizable finding: a closed verification loop is excellent at proving *what the software does* and structurally blind to *what its author says about it*. Self-authored evidence needs an adversarial outside reader. Every audit finding was verified locally before adoption (including live-fetching the competitor that refuted our broadest originality claim) — and adopting them, visibly and with dated corrections, made the submission stronger than the unchallenged version would have been.
+**Correction (2026-08-15, post-submission):** an independent reviewer pointed out that the sentence above originally read "every one of them was a claim, not a behavior," and that this was overstated. The same external reviews also surfaced genuine *behavioral* defects the loop had missed — ring geometry rebuilding every held frame, completion firing while a 180° violation was active, Reset restoring clamped rather than exact positions, subject-pulse scale compounding, non-atomic persistence restore, a Reset/save race, out-and-back drags misclassified as taps, and scale ownership. All are recorded in E8. The claim has been narrowed to match the record.
+
+The generalizable finding, stated accurately: a closed verification loop reliably proves *what the software does under the states you think to drive*, and is weakest at three things — states you never thought to enter, whether the explanation you wrote about the results is true, and whether an outsider could reproduce the claim. Self-authored evidence needs an adversarial outside reader. Every audit finding was verified locally before adoption (including live-fetching the competitor that refuted our broadest originality claim) — and adopting them, visibly and with dated corrections, made the submission stronger than the unchallenged version would have been.
 
 ### Known limitations, stated plainly
 
